@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>Rezystancja Izolacji</title>
+    <style>
+            @page {
+                size: A4;
+                margin: 1cm, 1cm, 1cm, 2cm;
+                @font-face {
+                    font-family: 'NotoSans-Regular';
+                    src: url('https://github.com/notofonts/noto-fonts/raw/main/hinted/ttf/NotoSans/NotoSans-Regular.ttf');
+                    font-weight: bold;
+                }
+                @frame header_frame {
+                    -pdf-frame-content: header_content;
+                    left: 1cm; width: 17cm; top: 1cm; height: 1cm;
+                }
+                @frame footer_frame {
+                    -pdf-frame-content: footer_content;
+                    left: 1cm; width: 17cm; top: 28cm; height: 1cm;
+                }
+            }
+
+            body {
+                font-family: NotoSans-Regular, Arial, sans-serif;
+                font-size: 10pt;
+                line-height: 1.0;
+            }
+
+            h1 {
+                color: #2c3e50;
+                text-align: center;
+                /* border-bottom: 2px solid #3498db; */
+                padding-bottom: 10px;
+            }
+
+            h2 {
+                color: #34495e;
+                margin-top: 25px;
+            }
+
+            .highlight {
+                background-color: #f1c40f;
+                padding: 2px 5px;
+            }
+
+            .info-box {
+                border: 1px solid #3498db;
+                background-color: #ecf0f1;
+                padding: 15px;
+                margin: 20px 0;
+                border-radius: 5px;
+            }
+
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            th, td {
+                border: 1px solid #bdc3c7;
+                padding: 4px;
+                text-align: left;
+            }
+
+            th {
+                height: 100px;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+
+            .no-break {
+                page-break-inside: avoid;
+            }
+            .lp{
+                text-align: center;
+                width: 25px;
+            }
+            .smallHeaders {
+                font-size: 8pt;
+            }
+            .tdClass {
+                text-align: center;
+                width:40px;
+            }
+            .td60px {
+                text-align: center;
+                width: 60px;
+            }
+            .td70px {
+                text-align: center;
+                width: 70px;
+            }
+            .td80px {
+                text-align: center;
+                width: 80px;
+            }
+            .td100px {
+                text-align: center;
+                width: 100px;
+            }
+            .td200px {
+                text-align: center;
+                width: 200px;
+            }
+            .boldTd{
+                font-size: large;
+                font-weight: bold;
+            }
+    </style>
+</head>
+<body>
+    <div class="no-break">
+        <h1>Tabela pomiaru pętli zwarcia</h1>
+        <div>Data Pomiaru</div>
+        <h3>{{data}}</h3>
+
+        <div>Obiekt</div>
+        <h3>{{miejsce_badan}}</h3>
+
+        <div>Adres</div>
+        <h3>{{adres}}</h3>
+        <table>
+            <tbody>
+                <tr>
+                    <td class="lp">Lp.</td>
+                    <td>Nazwa urządzenia</td>
+                    <td class="td100px">Typ zabezpieczeń</td>
+                    <td class="tdClass">In</td>
+                    <td class="tdClass">ta</td>
+                    <td class="tdClass">Ia</td> 
+                    <td class="td60px">Zs POM.</td>
+                    <td>Za=Uo:Ia</td> 
+                    <td class="td60px">Ocena ZSP &lt; Za</td>
+                </tr>
+                
+                <tr>
+                    <td class="lp">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td class="td100px">&nbsp;</td>
+                    <td class="tdClass">A</td>
+                    <td class="tdClass">S</td>
+                    <td class="tdClass">A</td>
+                    <td class="td60px">OM</td>
+                    <td class="td60px">OM</td>
+                    <td class="td60px">tak /nie</td>
+                </tr>
+                {{tabela_pomiaru_petli_zwarcia}}
+             </tbody>
+        </table>
+    </div>
+    <br/>
+    <div class="no-break">
+        {{tabela_legenda}}
+    </div>
+</body>
+</html>

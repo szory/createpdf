@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>Rezystancja Izolacji</title>
+    <style>
+            @page {
+                size: A4;
+                margin: 1cm, 1cm, 1cm, 2cm;
+                @font-face {
+                    font-family: 'NotoSans-Regular';
+                    src: url('https://github.com/notofonts/noto-fonts/raw/main/hinted/ttf/NotoSans/NotoSans-Regular.ttf');
+                }
+                @frame header_frame {
+                    -pdf-frame-content: header_content;
+                    left: 1cm; width: 17cm; top: 1cm; height: 1cm;
+                }
+                @frame footer_frame {
+                    -pdf-frame-content: footer_content;
+                    left: 1cm; width: 17cm; top: 28cm; height: 1cm;
+                }
+            }
+            
+            body {
+                font-family: NotoSans-Regular, Arial, sans-serif;
+                font-size: 10pt;
+                line-height: 1.0;
+            }
+            
+            h1 {
+                color: #2c3e50;
+                text-align: center;
+                border-bottom: 2px solid #3498db;
+                padding-bottom: 10px;
+            }
+            
+            h2 {
+                color: #34495e;
+                margin-top: 25px;
+            }
+            
+            .highlight {
+                background-color: #f1c40f;
+                padding: 2px 5px;
+            }
+            
+            .info-box {
+                border: 1px solid #3498db;
+                background-color: #ecf0f1;
+                padding: 15px;
+                margin: 20px 0;
+                border-radius: 5px;
+            }
+            
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 10px 0;
+            }
+            
+            th, td {
+                border: 1px solid #bdc3c7;
+                padding: 4px;
+                text-align: left;
+            }
+            
+            th {
+                height: 100px;
+            }
+            
+            .page-break {
+                page-break-before: always;
+            }
+            
+            .no-break {
+                page-break-inside: avoid;
+            }
+            .lp{
+                text-align: center;
+                width: 25px;
+            }
+            .smallHeaders {
+                font-size: 8pt;
+            }
+    </style>
+</head>
+<body>
+    <div class="no-break">
+        <table>
+            <thead>
+                <tr>
+                    <td colspan="3" style="text-align: left; vertical-align: top; font-size: 16pt;">PROTOKÓŁ RIP <br/> (RIP rezystancja izolacji przewodów)</td>
+                    <td colspan="2" style="text-align: left; vertical-align: top; font-size: 8pt;">Pieczęć nagłówkowa zlecającego</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td colspan="5" style="font-size: 15pt; text-align: center;">Badanie stanu izolacji przewodów elektrycznych</td>
+                </tr>
+                <tr>
+                    <td class="lp">1</td>
+                    <td>Adres</td>
+                    <td colspan="3">{{adres}}</td>
+                </tr>
+                <tr>
+                    <td class="lp">2</td>
+                    <td>Miejsce badań</td>
+                    <td colspan="3">{{miejsce_badan}}</td>
+                </tr>
+                <tr>
+                    <td class="lp">3</td>
+                    <td>Rozdzielnia</td>
+                    <td colspan="3">Rozdzielnia Główna</td>
+                </tr>
+                <tr>
+                    <td class="lp">4</td>
+                    <td>Typ izolacji</td>
+                    <td colspan="3">Instalacja elektryczna 400 V</td>
+                </tr>
+                <tr>
+                    <td class="lp">5</td>
+                    <td>Rodzaj przyrządu</td>
+                    <td>KEW 6010B</td>
+                    <td>Nr</td>
+                    <td>E0061479</td>
+                </tr>
+                <tr>
+                    <td class="lp">6</td>
+                    <td>Data</td>
+                    <td class="smallHeaders">Data bieżących badań</td>
+                    <td class="smallHeaders">Data następnych badań</td>
+                    <td class="smallHeaders">Data opracowania dokumentu</td>
+                </tr>
+                <tr>
+                    <td class="lp">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>{{data}}</td>
+                    <td>wg. normy</td>
+                    <td>{{data}}</td>
+                </tr>
+                <tr>
+                    <td class="lp">7</td>
+                    <td>Pomiary wykonał</td>
+                    <td class="smallHeaders">Imię i Nazwisko</td>
+                    <td class="smallHeaders">Seria i nr uprawnień</td>
+                    <td class="smallHeaders">Podpis</td>
+                </tr>
+                <tr>
+                    <td class="lp">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>Piotr Szarłowski</td>
+                    <td>&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td class="lp"></td>
+                    <td>Warunki pomiaru</td>
+                    <td class="smallHeaders">Napięcie pomiarowe</td>
+                    <td class="smallHeaders">Wymagania rezystancji izolacji</td>
+                    <td class="smallHeaders">Temperatura</td>
+                </tr>
+                <tr>
+                    <td class="lp">&nbsp;</td>
+                    <td>&nbsp;</td>
+                    <td>1000 V</td>
+                    <td>1,0MΩ</td>
+                    <td>20°C</td>
+                </tr>
+
+                <tr>
+                    <td class="lp">9</td>
+                    <td>Wyniki pomiarów</td>
+                    <td colspan="2">Nazwa: tabela rezystancji izolacji</td>
+                    <td>Ilość stron: 1</td>
+                </tr>
+
+                <tr>
+                    <td class="lp">10</td>
+                    <td>Opis usterek</td>
+                    <td colspan="3">brak</td>
+                </tr>
+
+                <tr>
+                    <td class="lp">11</td>
+                    <td>Zalecenia</td>
+                    <td colspan="3">brak</td>
+                </tr>
+
+                <tr>
+                    <td class="lp">12</td>
+                    <td>Ocena końcowa</td>
+                    <td colspan="3">Ocena stanu izolacji zgodna z PN-HD 60364-6:2016-07</td>
+                </tr>
+                
+                <tr>
+                    <td class="lp" style="height: 100px;">13</td>
+                    <td style="height: 100px;">Miejsce i data</td>
+                    <td style="height: 100px;">Elbląg {{data}}</td>
+                    <td style="height: 100px;">Podpis i pieczęć</td>
+                    <td style="height: 100px;">&nbsp;</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

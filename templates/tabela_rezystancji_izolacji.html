@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='UTF-8'>
+    <title>Rezystancja Izolacji</title>
+    <style>
+            @page {
+                size: A4;
+                margin: 1cm, 1cm, 1cm, 2cm;
+                @font-face {
+                    font-family: 'NotoSans-Regular';
+                    src: url('https://github.com/notofonts/noto-fonts/raw/main/hinted/ttf/NotoSans/NotoSans-Regular.ttf');
+                }
+                @frame header_frame {
+                    -pdf-frame-content: header_content;
+                    left: 1cm; width: 17cm; top: 1cm; height: 1cm;
+                }
+                @frame footer_frame {
+                    -pdf-frame-content: footer_content;
+                    left: 1cm; width: 17cm; top: 28cm; height: 1cm;
+                }
+            }
+
+            body {
+                font-family: NotoSans-Regular, Arial, sans-serif;
+                font-size: 10pt;
+                line-height: 1.0;
+            }
+
+            h1 {
+                color: #2c3e50;
+                text-align: center;
+                /* border-bottom: 2px solid #3498db; */
+                padding-bottom: 10px;
+            }
+
+            h2 {
+                color: #34495e;
+                margin-top: 25px;
+            }
+
+            .highlight {
+                background-color: #f1c40f;
+                padding: 2px 5px;
+            }
+
+            .info-box {
+                border: 1px solid #3498db;
+                background-color: #ecf0f1;
+                padding: 15px;
+                margin: 20px 0;
+                border-radius: 5px;
+            }
+
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                margin: 10px 0;
+            }
+
+            th, td {
+                border: 1px solid #bdc3c7;
+                padding: 4px;
+                text-align: left;
+            }
+
+            th {
+                height: 100px;
+            }
+
+            .page-break {
+                page-break-before: always;
+            }
+
+            .no-break {
+                page-break-inside: avoid;
+            }
+            .lp{
+                text-align: center;
+                width: 25px;
+            }
+            .smallHeaders {
+                font-size: 8pt;
+            }
+            .tdClass {
+                text-align: center;
+                width:40px;
+            }
+            .td60px {
+                text-align: center;
+                width: 60px;
+            }
+            .boldTd{
+                font-size: large;
+                font-weight: bold;
+            }
+    </style>
+</head>
+<body>
+    <div class="no-break">
+        <h1>Tabela Rezystancji Izolacji</h1>
+        <div>Data Pomiaru</div>
+        <h3>{{data}}</h3>
+
+        <div>Obiekt</div>
+        <h3>{{miejsce_badan}}</h3>
+
+        <div>Adres</div>
+        <h3>{{adres}}</h3>
+        <table>
+            <tbody>
+                <tr>
+                    <td class="lp">Lp.</td>
+                    <td colspan="1">Oznaczenie Nazwa</td>
+                    <td colspan="8">REZYSTANCJA IZOLACJI [MΩ]</td>
+                </tr>
+                
+                <tr>
+                    <td class="lp">&nbsp;</td>
+                    <td>Nazwa Nr Obwodu</td>
+                    <td class="tdClass">L1-L2</td>
+                    <td class="tdClass">L2-L3</td>
+                    <td class="tdClass">L1-L3</td>
+                    <td class="tdClass">L1-N</td>
+                    <td class="tdClass">L2-N</td>
+                    <td class="tdClass">L3-N</td>
+                    <td class="td60px">L1-L2-L3 z PE</td>
+                    <td class="td60px">Uwagi</td>
+                </tr>
+                {{tabela_rezystancji_izolacji_html}}               
+             </tbody>
+        </table>
+    </div>
+</body>
+</html>
