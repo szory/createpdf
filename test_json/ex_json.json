@@ -1,0 +1,213 @@
+{
+    "data": "2025-08-05",
+    "adres": "82-300 Elbląg, Konopnickiej 2B/2",
+    "miejsce_badan": "Budynek wielorodzinny",
+
+    "YKY_5x10_mm2": "1",
+    "YDYp_3x2_5mm2": "10",
+    "YDYp_3x1_5_mm2": "10",
+    "YDYp_5x2_5_mm2": "9",
+
+    "petla_zwarcia":[
+        {
+            "lokalizacja":"kuchnia",
+            "nr":"1",
+            "pomiar":0.4,
+            "typ":"B",
+            "amper":32,
+            "volt":230
+        },
+        {
+            "lokalizacja":"kuchnia",
+            "nr":"2",
+            "pomiar":0.4,
+            "typ":"B",
+            "amper":20,
+            "volt":230
+        },
+        {
+            "lokalizacja":"kuchnia",
+            "nr":"3",
+            "pomiar":0.7,
+            "typ":"B",
+            "amper":25,
+            "volt":230
+        },
+        {
+            "lokalizacja":"kuchnia",
+            "nr":"4",
+            "pomiar":0.2,
+            "typ":"C",
+            "amper":32,
+            "volt":230
+        },
+        {
+            "lokalizacja":"kuchnia",
+            "nr":"5",
+            "pomiar":0.6,
+            "typ":"B",
+            "amper":16,
+            "volt":230
+        },
+        {
+            "lokalizacja":"Łazienka",
+            "nr":"6",
+            "pomiar":0.41,
+            "typ":"B",
+            "amper":16,
+            "volt":230
+        },
+        {
+            "lokalizacja":"Łazienka",
+            "nr":"7",
+            "pomiar":0.5,
+            "typ":"L",
+            "amper":16,
+            "volt":230
+        },
+        {
+            "lokalizacja":"Łazienka",
+            "nr":"8",
+            "pomiar":0.2,
+            "typ":"gF",
+            "amper":16,
+            "volt":230
+        },
+        {
+            "lokalizacja":"Łazienka",
+            "nr":"9",
+            "pomiar":0.8,
+            "typ":"gF",
+            "amper":16,
+            "volt":230
+        }
+    ],
+
+    "rcd":[
+        {
+            "producent": "EATON",
+            "nr": "1",
+            "miejsce_instalacji": "Wejście",
+            "volt": 230,
+            "typ": "CFI6 25/4/003",
+            "amper_rcd": 25,
+            "amper_wywolania": 30,
+            "amper_wywolania_pomiar": 21,
+            "czas_pomiar": 23
+        },
+        {
+            "producent": "EATON",
+            "nr": "2",
+            "miejsce_instalacji": "I Piętro",
+            "volt": 230,
+            "typ": "CFI6 25/4/003",
+            "amper_rcd": 25,
+            "amper_wywolania": 30,
+            "amper_wywolania_pomiar": 21,
+            "czas_pomiar": 23
+        },
+        {
+            "producent": "EATON",
+            "nr": "3",
+            "miejsce_instalacji": "Piwnica",
+            "volt": 230,
+            "typ": "CFI6 25/4/003",
+            "amper_rcd": 25,
+            "amper_wywolania": 30,
+            "amper_wywolania_pomiar": 21,
+            "czas_pomiar": 23
+        },
+        {
+            "producent": "LEGRAND",
+            "nr": "1",
+            "miejsce_instalacji": "Wejście",
+            "volt": 400,
+            "typ": "10 234 25/4/003",
+            "amper_rcd": 25,
+            "amper_wywolania": 30,
+            "amper_wywolania_pomiar": 21,
+            "czas_pomiar": 23
+        },
+        {
+            "producent": "LEGRAND",
+            "nr": "2",
+            "miejsce_instalacji": "Wejście",
+            "volt": 230,
+            "typ": "10 234 25/4/003",
+            "amper_rcd": 25,
+            "amper_wywolania": 30,
+            "amper_wywolania_pomiar": 21,
+            "czas_pomiar": 23
+        }
+    ],
+
+    "rezystancjaIzolacji":[
+        {
+            "nr": "1",
+            "lokalizacja": "kuchnia",
+            "nazwaObwodu": "YKY 5x10mm2",
+            "l1l2": 180,
+            "l2l3": 180,
+            "l1l3": 180,
+            "l1n": 180,
+            "l2n": 180,
+            "l3n": 180,
+            "l1l2l3n": 180,
+            "uwagi": "dobra"
+        },
+        {
+            "nr": "2",
+            "lokalizacja": "kuchnia",
+            "nazwaObwodu": "YDYp 5x2,5mm2",
+            "l1l2": 180,
+            "l2l3": 180,
+            "l1l3": 180,
+            "l1n": 180,
+            "l2n": 180,
+            "l3n": 180,
+            "l1l2l3n": 180,
+            "uwagi": "dobra"
+        },
+        {
+            "nr": "1",
+            "lokalizacja": "łazienka",
+            "nazwaObwodu": "YDYp 3x2,5mm2",
+            "l1l2": 0,
+            "l2l3": 0,
+            "l1l3": 0,
+            "l1n": 180,
+            "l2n": 0,
+            "l3n": 0,
+            "l1l2l3n": 180,
+            "uwagi": "dobra"
+        },
+        {
+            "nr": "2",
+            "lokalizacja": "łazienka",
+            "nazwaObwodu": "YDYp 3x2,5mm2",
+            "l1l2": 0,
+            "l2l3": 0,
+            "l1l3": 0,
+            "l1n": 0,
+            "l2n": 180,
+            "l3n": 0,
+            "l1l2l3n": 180,
+            "uwagi": "dobra"
+        },
+        {
+            "nr": "3",
+            "lokalizacja": "łazienka",
+            "nazwaObwodu": "YDYp 3x2,5mm2",
+            "l1l2": 0,
+            "l2l3": 0,
+            "l1l3": 0,
+            "l1n": 0,
+            "l2n": 0,
+            "l3n": 180,
+            "l1l2l3n": 180,
+            "uwagi": "dobra"
+        }
+    ],
+    "uklad_zasilania": "TN-S",
+    "napiecie_sieci_zasilajacej": "400V"
+}
