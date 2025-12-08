@@ -316,8 +316,8 @@ def parse_html_protokol_petli_zwarcia(json: DataProtocol, html_source):
 
     if (len(usterki_lista) > 0):
         orzeczenie = """
-                Przeprowadzone pomiary wykazały braki  skuteczności zerowania gniazd wtykowych.<br/><br/>
-                Wykaz obiektów dotyczących braku skuteczności zerowania:
+                Przeprowadzone pomiary wykazały braki skuteczności uziemienia gniazd wtykowych.<br/><br/>
+                Wykaz obiektów dotyczących braku skuteczności uziemienia:
                 <br/><br/>
         """
         for item in usterki_lista:
