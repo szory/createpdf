@@ -10,6 +10,10 @@ from models.dataProtocol import DataProtocol, PetlaZwarcia, Rcd
 # enable logging
 pisa.showLogging()
 
+
+# TTF służą do przechowywania informacji o wyglądzie czcionki, co pozwala na jej
+# używanie w różnych programach i na różnych urządzeniach
+
 # use for Polish signs like "ęążć itp"
 font_url = "https://github.com/notofonts/noto-fonts/raw/main/hinted/ttf/NotoSans/NotoSans-Regular.ttf"
 font_path = "./NotoSans-Regular.ttf"
@@ -25,11 +29,14 @@ def getPdfTemplate(file_path):
 
 
 def parse_html_protocol_badanie_izolacji(json: DataProtocol, html_source):
-    for key, value in dict(json.__dict__).items():
+    #__dict__ specjalny atrybut, który przechowuje atrybuty obiektu lub klasy w postaci słownika (mapy klucz-wartość),
+    # umożliwiając dynamiczne przeglądanie, dodawanie, modyfikowanie i usuwanie tych atrybutów w czasie wykonania programu
+    for key, value in json.__dict__.items():
         try:
             key = str(key)
             html_source = html_source.replace("{{" + key + "}}", value)
         except:
+            # continue if str cannot convert item
             continue
     return html_source
 
@@ -40,7 +47,7 @@ def parse_html_tables_izolacja(json: DataProtocol, html_source):
     i = 0
     j = 0
     output_html = ""
-    for key, value in dict(json.__dict__).items():
+    for key, value in json.__dict__.items():
         try:
             value = int(value)
         except (TypeError, ValueError):
@@ -348,6 +355,7 @@ def link_callback(uri, rel):
 
 def create_pdf_file(html_source, file_name):
     pdf_data = BytesIO()
+    # patch temporary file resolution when loading fonts, related to the link_callback=link_callback
     pisaFileObject.getNamedFile = lambda self: self.uri
 
     conversion_result = pisa.CreatePDF(
@@ -368,6 +376,8 @@ if __name__ == "__main__":
     #
     # E:\\POMIARY\\ELEKTRYCZNE\\schematy\\Borkowo_Mietowa\\Borkowo - Mietowa - 3.j
     # son
+
+    # not worry about closing files, the with statement takes care of that.
     with open("""test_json/ex_json.json""", 'r',
               encoding='utf-8') as file:
         data = json.load(file)
@@ -382,9 +392,9 @@ if __name__ == "__main__":
     html_source = parse_html_tables_izolacja(dr, htmlTemplate)
     create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji.pdf")
 
-    # htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji.html")
-    # html_source = parse_html_tables_izolacja_precise(dr, htmlTemplate)
-    # create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji_dokladna.pdf")
+    htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji.html")
+    html_source = parse_html_tables_izolacja_precise(dr, htmlTemplate)
+    create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji_dokladna.pdf")
 
     htmlTemplate = getPdfTemplate("templates/tabela_pomiaru_petli_zwarcia.html")
     html_source = parse_html_tables_petla_zwarcia(dr, htmlTemplate)
