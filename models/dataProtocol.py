@@ -13,6 +13,18 @@ class RezystancjaIzolacji:
         self.l1l2l3n = l1l2l3n
         self.uwagi = uwagi
 
+class RezystancjaIzolacjiMieszkania:
+    def __init__(self, nr: str, miejsce_instalacji: str,
+                 YKY_5x10_mm2: str= "0", YDYp_3x2_5mm2: str= "0", YDYp_3x1_5_mm2: str= "0", YDYp_5x2_5_mm2: str= "0",
+                 YDY_5x4_mm2:str= "0",ileFaz: str= "1"):
+        self.nr = nr
+        self.miejsce_instalacji = miejsce_instalacji
+        self.YKY_5x10_mm2 = YKY_5x10_mm2
+        self.YDY_5x4_mm2 = YDY_5x4_mm2
+        self.YDYp_3x2_5mm2 = YDYp_3x2_5mm2
+        self.YDYp_3x1_5_mm2 = YDYp_3x1_5_mm2
+        self.YDYp_5x2_5_mm2 = YDYp_5x2_5_mm2
+        self.ileFaz = ileFaz
 
 class Rcd:
     def __init__(self,producent: str, nr: str, miejsce_instalacji: str, volt: int,
@@ -40,16 +52,18 @@ class PetlaZwarcia:
 
 class DataProtocol:
     def __init__(self,data: str,adres: str, miejsce_badan: str, YKY_5x10_mm2: str, YDYp_3x2_5mm2: str, YDYp_3x1_5_mm2: str, YDYp_5x2_5_mm2: str,
-                 petla_zwarcia: list[PetlaZwarcia], rcd: list[Rcd], rezystancjaIzolacji: list[RezystancjaIzolacji],uklad_zasilania: str, napiecie_sieci_zasilajacej: str):
+                 petla_zwarcia: list[PetlaZwarcia], rcd: list[Rcd], rezystancjaIzolacji: list[RezystancjaIzolacji],uklad_zasilania: str, napiecie_sieci_zasilajacej: str, YDY_5x4_mm2:str= "0",rezystancjaIzolacjiMieszkania: list[RezystancjaIzolacjiMieszkania]=[]):
         self.data = data
         self.adres = adres
         self.miejsce_badan = miejsce_badan
-        self.YKY_5x10_mm2 =YKY_5x10_mm2
-        self.YDYp_3x2_5mm2=YDYp_3x2_5mm2
-        self.YDYp_3x1_5_mm2=YDYp_3x1_5_mm2
-        self.YDYp_5x2_5_mm2=YDYp_5x2_5_mm2
+        self.YKY_5x10_mm2 = YKY_5x10_mm2
+        self.YDY_5x4_mm2 = YDY_5x4_mm2
+        self.YDYp_3x2_5mm2 = YDYp_3x2_5mm2
+        self.YDYp_3x1_5_mm2 = YDYp_3x1_5_mm2
+        self.YDYp_5x2_5_mm2 = YDYp_5x2_5_mm2
         self.petla_zwarcia = petla_zwarcia
         self.rcd = rcd
         self.rezystancjaIzolacji = rezystancjaIzolacji
         self.uklad_zasilania = uklad_zasilania
         self.napiecie_sieci_zasilajacej = napiecie_sieci_zasilajacej
+        self.rezystancjaIzolacjiMieszkania = rezystancjaIzolacjiMieszkania
