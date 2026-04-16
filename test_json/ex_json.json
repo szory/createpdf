@@ -12,7 +12,7 @@
         {
             "lokalizacja":"kuchnia",
             "nr":"1",
-            "pomiar":0.4,
+            "pomiar":3.4,
             "typ":"B",
             "amper":32,
             "volt":230
@@ -208,6 +208,46 @@
             "uwagi": "dobra"
         }
     ],
+
+    "rezystancjaIzolacjiMieszkania": [
+        {
+            "nr": 1,
+            "miejsce_instalacji": "Mieszkanie-1",
+            "YKY_5x10_mm2": "1",
+            "YDYp_3x2_5mm2": "3",
+            "YDYp_3x1_5_mm2": "1",
+            "YDYp_5x2_5_mm2": "1",
+            "ileFaz": "3"
+        },
+        {
+            "nr": 2,
+            "miejsce_instalacji": "Mieszkanie-2",
+            "YKY_5x10_mm2": "1",
+            "YDYp_3x2_5mm2": "4",
+            "YDYp_3x1_5_mm2": "1",
+            "YDYp_5x2_5_mm2": "1",
+            "ileFaz": "3"
+        },
+        {
+            "nr": 3,
+            "miejsce_instalacji": "Mieszkanie-3",
+            "YKY_5x10_mm2": "1",
+            "YDYp_3x2_5mm2": "5",
+            "YDYp_3x1_5_mm2": "1",
+            "YDYp_5x2_5_mm2": "1",
+            "ileFaz": "3"
+        },
+        {
+            "nr": 4,
+            "miejsce_instalacji": "Mieszkanie-4",
+            "YKY_5x10_mm2": "1",
+            "YDYp_3x2_5mm2": "5",
+            "YDYp_3x1_5_mm2": "1",
+            "YDYp_5x2_5_mm2": "1",
+            "ileFaz": "3"
+        }
+    ],
+
     "uklad_zasilania": "TN-S",
     "napiecie_sieci_zasilajacej": "400V"
 }

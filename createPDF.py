@@ -5,7 +5,7 @@ from io import BytesIO
 from xhtml2pdf.files import pisaFileObject
 import json
 
-from models.dataProtocol import DataProtocol, PetlaZwarcia, Rcd
+from models.dataProtocol import DataProtocol, PetlaZwarcia, Rcd, RezystancjaIzolacjiMieszkania
 
 # enable logging
 pisa.showLogging()
@@ -40,26 +40,32 @@ def parse_html_protocol_badanie_izolacji(json: DataProtocol, html_source):
             continue
     return html_source
 
-
-def parse_html_tables_izolacja(json: DataProtocol, html_source):
-    pass
-    generated_html = "<tr>"
-    i = 0
+def type_of_electrical_circuit(json):
+    output_html="";
     j = 0
-    output_html = ""
-    for key, value in json.__dict__.items():
+    i = 0
+    for key, value in json:
         try:
             value = int(value)
         except (TypeError, ValueError):
             continue
+
         for _ in range(int(value)):
-            i = i + 1
+
+            if key == "YDY_5x4_mm2":
+                i = i + 1
+                name = "Obwód YDY 5x4 mm2"
+                output_html += ("<tr><td>" + str(i) +
+                                "</td><td>" + name + "</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td class='td60px'>180</td><td>dobra</td></tr>")
+
             if key == "YKY_5x10_mm2":
+                i = i + 1
                 name = "Obwód YKY 5x10 mm2"
                 output_html += "<tr><td>" + str(
                     i) + "</td><td>" + name + "</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td class='td60px'>180</td><td>dobra</td></tr>"
 
             if key == "YDYp_3x2_5mm2":
+                i = i + 1
                 name = "Obwód YDYp 3x2,5 mm2"
                 if j == 3:
                     j = 0
@@ -75,7 +81,9 @@ def parse_html_tables_izolacja(json: DataProtocol, html_source):
                         <td class="td60px">180</td><td class="td60px">dobra</td>
                     </tr>"""
                 j = j + 1
+
             if key == "YDYp_3x1_5_mm2":
+                i = i + 1
                 name = "Obwód YDYp 3x1,5 mm2"
                 if j == 3:
                     j = 0
@@ -93,15 +101,68 @@ def parse_html_tables_izolacja(json: DataProtocol, html_source):
                 j = j + 1
 
             if key == "YDYp_5x2_5_mm2":
+                i = i + 1
                 name = "Obwód YDYp 5x2,5 mm2"
                 output_html += "<tr><td>" + str(
                     i) + "</td><td>" + name + "</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td class='td60px'>180</td><td>dobra</td></tr>"
+
+    return output_html
+
+def parse_html_tables_izolacja(json: DataProtocol, html_source):
+    output_html = ""
+
+    output_html += type_of_electrical_circuit(json.__dict__.items())
 
     html_source = html_source.replace("{{data}}", json.data)
     html_source = html_source.replace("{{adres}}", json.adres)
     html_source = html_source.replace("{{miejsce_badan}}", json.miejsce_badan)
     return html_source.replace("{{tabela_rezystancji_izolacji_html}}", output_html)
 
+def parse_html_tables_izolacja_mieszkania(json: DataProtocol, html_source):
+    output_html = ""
+    rim_items: list[RezystancjaIzolacjiMieszkania] = json.rezystancjaIzolacjiMieszkania
+
+    for item in rim_items:
+        output_html += f"""
+        <table>
+            <tbody>
+                <tr>
+                    <td class="lp">Lp.</td>
+                    <td colspan="1">Oznaczenie Nazwa</td>
+                    <td colspan="8">REZYSTANCJA IZOLACJI [MΩ]</td>
+                </tr>
+                <tr>
+                    <td class="lp">&nbsp;</td>
+                    <td>Nazwa Nr Obwodu</td>
+                    <td class="tdClass">L1-L2</td>
+                    <td class="tdClass">L2-L3</td>
+                    <td class="tdClass">L1-L3</td>
+                    <td class="tdClass">L1-N</td>
+                    <td class="tdClass">L2-N</td>
+                    <td class="tdClass">L3-N</td>
+                    <td class="td60px">L1-L2-L3 z PE</td>
+                    <td class="td60px">Uwagi</td>
+                </tr>
+                <tr>
+                    <td class="lp">&nbsp;</td>
+                    <td>{item["miejsce_instalacji"]}</td>
+                    <td class="tdClass">&nbsp;</td>
+                    <td class="tdClass">&nbsp;</td>
+                    <td class="tdClass">&nbsp;</td>
+                    <td class="tdClass">&nbsp;</td>
+                    <td class="tdClass">&nbsp;</td>
+                    <td class="tdClass">&nbsp;</td>
+                    <td class="td60px">&nbsp;</td>
+                    <td class="td60px">&nbsp;</td>
+                </tr>
+            """
+
+        output_html += type_of_electrical_circuit(item.items())
+
+        output_html += "</tbody></table>"
+        output_html += "<br/>"
+
+    return html_source.replace("{{tabela_rezystancji_izolacji_mieszkania_html}}", output_html)
 
 def parse_html_tables_izolacja_precise(json: DataProtocol, html_source):
     output_html = ""
@@ -374,40 +435,44 @@ def create_pdf_file(html_source, file_name):
 
 if __name__ == "__main__":
     #
-    # E:\\POMIARY\\ELEKTRYCZNE\\schematy\\Borkowo_Mietowa\\Borkowo - Mietowa - 3.j
-    # son
-
+    # E:\\POMIARY\\ELEKTRYCZNE\\schematy\\Borkowo_Mietowa\\Borkowo - Mietowa - 3.json
     # not worry about closing files, the with statement takes care of that.
-    with open("""test_json/ex_json.json""", 'r',
-              encoding='utf-8') as file:
+    with open("""test_json/ex_json.json""", 'r', encoding='utf-8') as file:
         data = json.load(file)
 
     dr = DataProtocol(**data)
 
-    htmlTemplate = getPdfTemplate("templates/badanie_stanu_izolacji.html")
-    html_source = parse_html_protocol_badanie_izolacji(dr, htmlTemplate)
-    create_pdf_file(html_source, "protokoly_pdf/badanie_stanu_izolacji_new.pdf")
+    # htmlTemplate = getPdfTemplate("templates/badanie_stanu_izolacji.html")
+    # html_source = parse_html_protocol_badanie_izolacji(dr, htmlTemplate)
+    # create_pdf_file(html_source, "protokoly_pdf/badanie_stanu_izolacji_new.pdf")
 
+    # TABELE REZYSTANCJI
     htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji.html")
     html_source = parse_html_tables_izolacja(dr, htmlTemplate)
     create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji.pdf")
 
-    htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji.html")
-    html_source = parse_html_tables_izolacja_precise(dr, htmlTemplate)
-    create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji_dokladna.pdf")
+    htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji_mieszkania.html")
+    html_source = parse_html_tables_izolacja_mieszkania(dr, htmlTemplate)
+    create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji_mieszkania.pdf")
 
-    htmlTemplate = getPdfTemplate("templates/tabela_pomiaru_petli_zwarcia.html")
-    html_source = parse_html_tables_petla_zwarcia(dr, htmlTemplate)
-    create_pdf_file(html_source, "protokoly_pdf/tabela_pomiaru_petli_zwarcia.pdf")
+    # htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji.html")
+    # html_source = parse_html_tables_izolacja_precise(dr, htmlTemplate)
+    # create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji_dokladna.pdf")
 
-    htmlTemplate = getPdfTemplate("templates/protokol_rcd.html")
-    html_source = parse_html_protocol_rcd(dr, htmlTemplate)
-    create_pdf_file(html_source, "protokoly_pdf/badanie_wylacznika_roznicowo_pradowego.pdf")
+    # htmlTemplate = getPdfTemplate("templates/tabela_pomiaru_petli_zwarcia.html")
+    # html_source = parse_html_tables_petla_zwarcia(dr, htmlTemplate)
+    # create_pdf_file(html_source, "protokoly_pdf/tabela_pomiaru_petli_zwarcia.pdf")
+    #
+    # htmlTemplate = getPdfTemplate("templates/protokol_rcd.html")
+    # html_source = parse_html_protocol_rcd(dr, htmlTemplate)
+    # create_pdf_file(html_source, "protokoly_pdf/badanie_wylacznika_roznicowo_pradowego.pdf")
+    #
+    # htmlTemplate = getPdfTemplate("templates/protokol_pomiaru_petli_zwarcia_parter.html")
+    # html_source = parse_html_protokol_petli_zwarcia(dr, htmlTemplate)
+    # create_pdf_file(html_source, "protokoly_pdf/protokol_pomiaru_petli_zwarcia_parter.pdf")
+    #
+    # htmlTemplate = getPdfTemplate("templates/strona_tytulowa.html")
+    # html_source = htmlTemplate.replace("{{adres}}", dr.adres).replace("{{miejsce_badan}}", dr.miejsce_badan)
+    # create_pdf_file(html_source, "protokoly_pdf/strona_tytulowa.pdf")
 
-    htmlTemplate = getPdfTemplate("templates/protokol_pomiaru_petli_zwarcia_parter.html")
-    html_source = parse_html_protokol_petli_zwarcia(dr, htmlTemplate)
-    create_pdf_file(html_source, "protokoly_pdf/protokol_pomiaru_petli_zwarcia_parter.pdf")
 
-    htmlTemplate = getPdfTemplate("templates/strona_tytulowa.html")
-    html_source = htmlTemplate.replace("{{adres}}", dr.adres)
-    create_pdf_file(html_source, "protokoly_pdf/strona_tytulowa.pdf")
