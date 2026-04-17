@@ -385,6 +385,7 @@ def parse_html_protokol_petli_zwarcia(json: DataProtocol, html_source):
     if (len(usterki_lista) > 0):
         orzeczenie = """
                 Przeprowadzone pomiary wykazały braki skuteczności uziemienia gniazd wtykowych.<br/><br/>
+                Pomiary impedancji pętli zwarcia nie spełniają wymagania normy PN-HD 60364-4-41:2017-09.
                 Wykaz obiektów dotyczących braku skuteczności uziemienia:
                 <br/><br/>
         """
@@ -442,37 +443,37 @@ if __name__ == "__main__":
 
     dr = DataProtocol(**data)
 
-    # htmlTemplate = getPdfTemplate("templates/badanie_stanu_izolacji.html")
-    # html_source = parse_html_protocol_badanie_izolacji(dr, htmlTemplate)
-    # create_pdf_file(html_source, "protokoly_pdf/badanie_stanu_izolacji_new.pdf")
+    htmlTemplate = getPdfTemplate("templates/badanie_stanu_izolacji.html")
+    html_source = parse_html_protocol_badanie_izolacji(dr, htmlTemplate)
+    create_pdf_file(html_source, "protokoly_pdf/badanie_stanu_izolacji_new.pdf")
 
     # TABELE REZYSTANCJI
     htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji.html")
     html_source = parse_html_tables_izolacja(dr, htmlTemplate)
     create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji.pdf")
-
-    htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji_mieszkania.html")
-    html_source = parse_html_tables_izolacja_mieszkania(dr, htmlTemplate)
-    create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji_mieszkania.pdf")
+    #
+    # htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji_mieszkania.html")
+    # html_source = parse_html_tables_izolacja_mieszkania(dr, htmlTemplate)
+    # create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji_mieszkania.pdf")
 
     # htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji.html")
     # html_source = parse_html_tables_izolacja_precise(dr, htmlTemplate)
     # create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji_dokladna.pdf")
 
-    # htmlTemplate = getPdfTemplate("templates/tabela_pomiaru_petli_zwarcia.html")
-    # html_source = parse_html_tables_petla_zwarcia(dr, htmlTemplate)
-    # create_pdf_file(html_source, "protokoly_pdf/tabela_pomiaru_petli_zwarcia.pdf")
-    #
-    # htmlTemplate = getPdfTemplate("templates/protokol_rcd.html")
-    # html_source = parse_html_protocol_rcd(dr, htmlTemplate)
-    # create_pdf_file(html_source, "protokoly_pdf/badanie_wylacznika_roznicowo_pradowego.pdf")
-    #
-    # htmlTemplate = getPdfTemplate("templates/protokol_pomiaru_petli_zwarcia_parter.html")
-    # html_source = parse_html_protokol_petli_zwarcia(dr, htmlTemplate)
-    # create_pdf_file(html_source, "protokoly_pdf/protokol_pomiaru_petli_zwarcia_parter.pdf")
-    #
-    # htmlTemplate = getPdfTemplate("templates/strona_tytulowa.html")
-    # html_source = htmlTemplate.replace("{{adres}}", dr.adres).replace("{{miejsce_badan}}", dr.miejsce_badan)
-    # create_pdf_file(html_source, "protokoly_pdf/strona_tytulowa.pdf")
+    htmlTemplate = getPdfTemplate("templates/tabela_pomiaru_petli_zwarcia.html")
+    html_source = parse_html_tables_petla_zwarcia(dr, htmlTemplate)
+    create_pdf_file(html_source, "protokoly_pdf/tabela_pomiaru_petli_zwarcia.pdf")
+
+    htmlTemplate = getPdfTemplate("templates/protokol_rcd.html")
+    html_source = parse_html_protocol_rcd(dr, htmlTemplate)
+    create_pdf_file(html_source, "protokoly_pdf/badanie_wylacznika_roznicowo_pradowego.pdf")
+
+    htmlTemplate = getPdfTemplate("templates/protokol_pomiaru_petli_zwarcia_parter.html")
+    html_source = parse_html_protokol_petli_zwarcia(dr, htmlTemplate)
+    create_pdf_file(html_source, "protokoly_pdf/protokol_pomiaru_petli_zwarcia_parter.pdf")
+
+    htmlTemplate = getPdfTemplate("templates/strona_tytulowa.html")
+    html_source = htmlTemplate.replace("{{adres}}", dr.adres).replace("{{miejsce_badan}}", dr.miejsce_badan)
+    create_pdf_file(html_source, "protokoly_pdf/strona_tytulowa.pdf")
 
 
