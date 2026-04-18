@@ -1,3 +1,4 @@
+from pyhanko.pdf_utils.xref import convert_to_int
 from xhtml2pdf import pisa
 from bs4 import BeautifulSoup
 import urllib.request
@@ -40,73 +41,100 @@ def parse_html_protocol_badanie_izolacji(json: DataProtocol, html_source):
             continue
     return html_source
 
-def type_of_electrical_circuit(json):
-    output_html="";
+
+def print_phase_as_given(name,i,phase_nr):
+    #                                         <td class='td60px'>180</td><td>dobra</td>
+    return f"""<tr><td>{str(i)}</td><td>{name}</td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td> </td>
+                                        <td>{'180' if phase_nr == 1 else ' '}</td>
+                                        <td>{'180' if phase_nr == 2 else ' '}</td>
+                                        <td>{'180' if phase_nr == 3 else ' '}</td>
+                                        <td>180</td><td class="td60px">dobra</td>
+                                    </tr>"""
+
+def for_5_wires(name,i):
+    return f"<tr><td>{str(i)}</td><td>{name}</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td class='td60px'>180</td><td>dobra</td></tr>"
+
+def for_3_wires(name,i,j):
+    return f"""
+    <tr>
+        <td>{str(i)}</td><td>{name}</td>
+        <td class="tdClass"></td>
+        <td class="tdClass"></td>
+        <td class="tdClass"></td>
+        <td class="tdClass">{('180' if j == 0 else '')}</td>
+        <td class="tdClass">{('180' if j == 1 else '')}</td>
+        <td class="tdClass">{('180' if j == 2 else '')}</td>
+        <td class="td60px">180</td><td class="td60px">dobra</td>
+    </tr>"""
+
+def type_of_electrical_circuit(json,phase_nr=1):
+    output_html=""
     j = 0
     i = 0
+
+    # if ("ileFaz" in dict(json).keys()):
+    ileFaz = dict(json)["ileFaz"]
+    # else:
+    #     ileFaz = "3"
+
     for key, value in json:
         try:
             value = int(value)
         except (TypeError, ValueError):
             continue
 
-        for _ in range(int(value)):
+        if (key not in("nr","miejsce_instalacji","ileFaz")):
+            for _ in range(int(value)):
+                if key == "YDY_5x4_mm2":
+                    i = i + 1
+                    name = "Obwód YDY 5x4 mm2"
+                    if ileFaz== "3":
+                        output_html += for_5_wires(name,i)
+                    else:
+                        output_html += print_phase_as_given(name,i,phase_nr)
 
-            if key == "YDY_5x4_mm2":
-                i = i + 1
-                name = "Obwód YDY 5x4 mm2"
-                output_html += ("<tr><td>" + str(i) +
-                                "</td><td>" + name + "</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td class='td60px'>180</td><td>dobra</td></tr>")
+                if key == "YKY_5x10_mm2":
+                    i = i + 1
+                    name = "Obwód YKY 5x10 mm2"
+                    if ileFaz== "3":
+                        output_html += for_5_wires(name,i)
+                    else:
+                        output_html += print_phase_as_given(name,i,phase_nr)
 
-            if key == "YKY_5x10_mm2":
-                i = i + 1
-                name = "Obwód YKY 5x10 mm2"
-                output_html += "<tr><td>" + str(
-                    i) + "</td><td>" + name + "</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td class='td60px'>180</td><td>dobra</td></tr>"
+                if key == "YDYp_3x2_5mm2":
+                    i = i + 1
+                    name = "Obwód YDYp 3x2,5 mm2"
+                    if ileFaz== "3":
+                        if j == 3:
+                            j = 0
+                        output_html += for_3_wires(name,i,j)
+                        j = j + 1
+                    else:
+                        output_html += print_phase_as_given(name,i,phase_nr)
 
-            if key == "YDYp_3x2_5mm2":
-                i = i + 1
-                name = "Obwód YDYp 3x2,5 mm2"
-                if j == 3:
-                    j = 0
-                output_html += """
-                    <tr>
-                        <td>""" + str(i) + """</td><td>""" + name + """</td>
-                        <td class="tdClass"></td>
-                        <td class="tdClass"></td>
-                        <td class="tdClass"></td>
-                        <td class="tdClass">""" + ('180' if j == 0 else '') + """</td>
-                        <td class="tdClass">""" + ('180' if j == 1 else '') + """</td>
-                        <td class="tdClass">""" + ('180' if j == 2 else '') + """</td>
-                        <td class="td60px">180</td><td class="td60px">dobra</td>
-                    </tr>"""
-                j = j + 1
+                if key == "YDYp_3x1_5_mm2":
+                    i = i + 1
+                    name = "Obwód YDYp 3x1,5 mm2"
+                    if ileFaz== "3":
+                        if j == 3: j = 0
+                        output_html += for_3_wires(name,i,j)
+                        j = j + 1
+                    else:
+                        output_html += print_phase_as_given(name,i,phase_nr)
 
-            if key == "YDYp_3x1_5_mm2":
-                i = i + 1
-                name = "Obwód YDYp 3x1,5 mm2"
-                if j == 3:
-                    j = 0
-                output_html += """
-                    <tr>
-                        <td>""" + str(i) + """</td><td>""" + name + """</td>
-                        <td class="tdClass"></td>
-                        <td class="tdClass"></td>
-                        <td class="tdClass"></td>
-                        <td class="tdClass">""" + ('180' if j == 0 else '') + """</td>
-                        <td class="tdClass">""" + ('180' if j == 1 else '') + """</td>
-                        <td class="tdClass">""" + ('180' if j == 2 else '') + """</td>
-                        <td class="td60px">180</td><td class="td60px">dobra</td>
-                    </tr>"""
-                j = j + 1
-
-            if key == "YDYp_5x2_5_mm2":
-                i = i + 1
-                name = "Obwód YDYp 5x2,5 mm2"
-                output_html += "<tr><td>" + str(
-                    i) + "</td><td>" + name + "</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td class='td60px'>180</td><td>dobra</td></tr>"
+                if key == "YDYp_5x2_5_mm2":
+                    i = i + 1
+                    name = "Obwód YDYp 5x2,5 mm2"
+                    if ileFaz== "3":
+                        output_html += for_5_wires(name,i)
+                    else:
+                        output_html += print_phase_as_given(name,i,phase_nr)
 
     return output_html
+
 
 def parse_html_tables_izolacja(json: DataProtocol, html_source):
     output_html = ""
@@ -118,10 +146,12 @@ def parse_html_tables_izolacja(json: DataProtocol, html_source):
     html_source = html_source.replace("{{miejsce_badan}}", json.miejsce_badan)
     return html_source.replace("{{tabela_rezystancji_izolacji_html}}", output_html)
 
+
 def parse_html_tables_izolacja_mieszkania(json: DataProtocol, html_source):
     output_html = ""
     rim_items: list[RezystancjaIzolacjiMieszkania] = json.rezystancjaIzolacjiMieszkania
 
+    phase_nr = 1
     for item in rim_items:
         output_html += f"""
         <table>
@@ -132,7 +162,7 @@ def parse_html_tables_izolacja_mieszkania(json: DataProtocol, html_source):
                     <td colspan="8">REZYSTANCJA IZOLACJI [MΩ]</td>
                 </tr>
                 <tr>
-                    <td class="lp">&nbsp;</td>
+                    <td class="lp"></td>
                     <td>Nazwa Nr Obwodu</td>
                     <td class="tdClass">L1-L2</td>
                     <td class="tdClass">L2-L3</td>
@@ -144,25 +174,28 @@ def parse_html_tables_izolacja_mieszkania(json: DataProtocol, html_source):
                     <td class="td60px">Uwagi</td>
                 </tr>
                 <tr>
-                    <td class="lp">&nbsp;</td>
+                    <td class="lp"></td>
                     <td>{item["miejsce_instalacji"]}</td>
-                    <td class="tdClass">&nbsp;</td>
-                    <td class="tdClass">&nbsp;</td>
-                    <td class="tdClass">&nbsp;</td>
-                    <td class="tdClass">&nbsp;</td>
-                    <td class="tdClass">&nbsp;</td>
-                    <td class="tdClass">&nbsp;</td>
-                    <td class="td60px">&nbsp;</td>
-                    <td class="td60px">&nbsp;</td>
+                    <td class="tdClass"></td>
+                    <td class="tdClass"></td>
+                    <td class="tdClass"></td>
+                    <td class="tdClass"></td>
+                    <td class="tdClass"></td>
+                    <td class="tdClass"></td>
+                    <td class="td60px"></td>
+                    <td class="td60px"></td>
                 </tr>
             """
+        if phase_nr == 4: phase_nr = 1
 
-        output_html += type_of_electrical_circuit(item.items())
+        output_html += type_of_electrical_circuit(item.items(),phase_nr)
+        if item["ileFaz"]=="1": phase_nr += 1
 
         output_html += "</tbody></table>"
         output_html += "<br/>"
 
     return html_source.replace("{{tabela_rezystancji_izolacji_mieszkania_html}}", output_html)
+
 
 def parse_html_tables_izolacja_precise(json: DataProtocol, html_source):
     output_html = ""
@@ -451,7 +484,7 @@ if __name__ == "__main__":
     htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji.html")
     html_source = parse_html_tables_izolacja(dr, htmlTemplate)
     create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji.pdf")
-    #
+
     # htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji_mieszkania.html")
     # html_source = parse_html_tables_izolacja_mieszkania(dr, htmlTemplate)
     # create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji_mieszkania.pdf")
