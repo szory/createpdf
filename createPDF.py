@@ -54,8 +54,10 @@ def print_phase_as_given(name,i,phase_nr):
                                         <td>180</td><td class="td60px">dobra</td>
                                     </tr>"""
 
+
 def for_5_wires(name,i):
     return f"<tr><td>{str(i)}</td><td>{name}</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td class='td60px'>180</td><td>dobra</td></tr>"
+
 
 def for_3_wires(name,i,j):
     return f"""
@@ -70,15 +72,13 @@ def for_3_wires(name,i,j):
         <td class="td60px">180</td><td class="td60px">dobra</td>
     </tr>"""
 
+
 def type_of_electrical_circuit(json,phase_nr=1):
     output_html=""
     j = 0
     i = 0
 
-    # if ("ileFaz" in dict(json).keys()):
     ileFaz = dict(json)["ileFaz"]
-    # else:
-    #     ileFaz = "3"
 
     for key, value in json:
         try:
@@ -194,6 +194,9 @@ def parse_html_tables_izolacja_mieszkania(json: DataProtocol, html_source):
         output_html += "</tbody></table>"
         output_html += "<br/>"
 
+    html_source = html_source.replace("{{data}}", json.data)
+    html_source = html_source.replace("{{adres}}", json.adres)
+    html_source = html_source.replace("{{miejsce_badan}}", json.miejsce_badan)
     return html_source.replace("{{tabela_rezystancji_izolacji_mieszkania_html}}", output_html)
 
 

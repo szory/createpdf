@@ -52,7 +52,7 @@ class PetlaZwarcia:
 
 class DataProtocol:
     def __init__(self,data: str,adres: str, miejsce_badan: str, YKY_5x10_mm2: str, YDYp_3x2_5mm2: str, YDYp_3x1_5_mm2: str, YDYp_5x2_5_mm2: str,
-                 petla_zwarcia: list[PetlaZwarcia], rcd: list[Rcd], rezystancjaIzolacji: list[RezystancjaIzolacji],uklad_zasilania: str, napiecie_sieci_zasilajacej: str, YDY_5x4_mm2:str= "0",rezystancjaIzolacjiMieszkania: list[RezystancjaIzolacjiMieszkania]=[],ileFaz: str= "1"):
+                 petla_zwarcia: list[PetlaZwarcia], rcd: list[Rcd], rezystancjaIzolacji: list[RezystancjaIzolacji],uklad_zasilania: str, napiecie_sieci_zasilajacej: str, YDY_5x4_mm2:str= "0",rezystancjaIzolacjiMieszkania: list[RezystancjaIzolacjiMieszkania]=[],ileFaz: str= "3"):
         self.data = data
         self.adres = adres
         self.miejsce_badan = miejsce_badan
