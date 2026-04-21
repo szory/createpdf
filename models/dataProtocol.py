@@ -28,7 +28,7 @@ class RezystancjaIzolacjiMieszkania:
 
 class Rcd:
     def __init__(self,producent: str, nr: str, miejsce_instalacji: str, volt: int,
-                 typ: str, amper_rcd: int, amper_wywolania: int, amper_wywolania_pomiar: int, czas_pomiar: int):
+                 typ: str, amper_rcd: int, amper_wywolania: int, amper_wywolania_pomiar: int, czas_pomiar: int,usterki: "brak"):
         self.producent = producent
         self.nr = nr
         self.miejsce_instalacji = miejsce_instalacji
@@ -38,6 +38,8 @@ class Rcd:
         self.amper_wywolania = amper_wywolania
         self.amper_wywolania_pomiar = amper_wywolania_pomiar
         self.czas_pomiar = czas_pomiar
+        self.usterki = usterki
+
 
 
 class PetlaZwarcia:

@@ -312,6 +312,9 @@ def parse_html_protocol_rcd(json: DataProtocol, html_source):
     pass
     output_html = ""
     rcd_items: list[Rcd] = json.rcd
+
+    print(rcd_items)
+
     producent = ""
     miejsce_instalacji = ""
     i = 0
@@ -346,16 +349,24 @@ def parse_html_protocol_rcd(json: DataProtocol, html_source):
                         <td class='td70px'>""" + str(rcd_item["amper_wywolania_pomiar"]) + """</td>
                         <td class='td70px'>""" + str(rcd_item["czas_pomiar"]) + """</td>
                       </tr>"""
+        output_html += f"""
+                  <tr>
+                    <td class='lp'></td>
+                    <td>Orzeczenie końcowe:</td>
+                    <td colspan="5">{rcd_ocena(rcd_item)}</td>
+                  </tr>"""
+
+
         # print("len(rcd_items)", len(rcd_items))
         if ((i + 1) < len(rcd_items)):
             if (rcd_items[i]["producent"] != rcd_items[i + 1]["producent"] or
                     rcd_items[i]["miejsce_instalacji"] != rcd_items[i + 1]["miejsce_instalacji"]):
                 output_html += "</tbody></table>"
-                output_html += "Orzeczenie końcowe: wyłączniki różnicowo-prądowe działają prawidłowo"
+                # output_html += "Orzeczenie końcowe: wyłączniki różnicowo-prądowe działają prawidłowo"
                 output_html += "<br/><br/><br/>"
         else:
             output_html += "</tbody></table>"
-            output_html += "Orzeczenie końcowe: wyłączniki różnicowo-prądowe działają prawidłowo"
+            # output_html += "Orzeczenie końcowe: wyłączniki różnicowo-prądowe działają prawidłowo"
         i = i + 1
 
     html_source = html_source.replace("{{miejsce_badan}}", json.miejsce_badan)
@@ -363,6 +374,17 @@ def parse_html_protocol_rcd(json: DataProtocol, html_source):
     html_source = html_source.replace("{{data}}", json.data)
     html_source = html_source.replace("{{protocol_rcd}}", output_html)
     return html_source
+
+
+def rcd_ocena(rcd_item):
+    output="wyłącznik różnicowo-prądowy działa prawidłowo"
+    try:
+        if (str(rcd_item["usterki"]) != "brak"):
+            output = f"""{str(rcd_item["usterki"])}"""
+    except:
+        pass
+
+    return output
 
 def parse_html_protokol_petli_zwarcia(json: DataProtocol, html_source):
     html_source = html_source.replace("{{miejsce_badan}}", json.miejsce_badan)
@@ -446,7 +468,7 @@ if __name__ == "__main__":
     #
     # E:\\POMIARY\\ELEKTRYCZNE\\schematy\\Borkowo_Mietowa\\Borkowo - Mietowa - 3.json
     # not worry about closing files, the with statement takes care of that.
-    with open("""E:\POMIARY\ELEKTRYCZNE\schematy\Gdańsk_Mazurska_19_21C\80-513_Gdansk_Mazurska_19_21C.json""", 'r', encoding='utf-8') as file:
+    with open("""E:\POMIARY\ELEKTRYCZNE\schematy\Gdańsk_Zamiejska_18A\A\80-036_Gdansk_Zamiejska_18A.json""", 'r', encoding='utf-8') as file:
         data = json.load(file)
 
     dr = DataProtocol(**data)
