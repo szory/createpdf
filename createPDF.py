@@ -28,7 +28,6 @@ def getPdfTemplate(file_path):
     soup = BeautifulSoup(redDom, 'html.parser')
     return str(soup)
 
-
 def parse_html_protocol_badanie_izolacji(json: DataProtocol, html_source):
     #__dict__ specjalny atrybut, który przechowuje atrybuty obiektu lub klasy w postaci słownika (mapy klucz-wartość),
     # umożliwiając dynamiczne przeglądanie, dodawanie, modyfikowanie i usuwanie tych atrybutów w czasie wykonania programu
@@ -40,7 +39,6 @@ def parse_html_protocol_badanie_izolacji(json: DataProtocol, html_source):
             # continue if str cannot convert item
             continue
     return html_source
-
 
 def print_phase_as_given(name,i,phase_nr):
     #                                         <td class='td60px'>180</td><td>dobra</td>
@@ -54,10 +52,8 @@ def print_phase_as_given(name,i,phase_nr):
                                         <td>180</td><td class="td60px">dobra</td>
                                     </tr>"""
 
-
 def for_5_wires(name,i):
     return f"<tr><td>{str(i)}</td><td>{name}</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td class='td60px'>180</td><td>dobra</td></tr>"
-
 
 def for_3_wires(name,i,j):
     return f"""
@@ -72,6 +68,18 @@ def for_3_wires(name,i,j):
         <td class="td60px">180</td><td class="td60px">dobra</td>
     </tr>"""
 
+def generate_proper_circuit(key,i,output_html,phase_nr,ileFaz,j=0):
+    i = i + 1
+    name = f"Obwód {key.replace('_',' ')}"
+    name = name.replace(" 5mm2",".5 mm2")
+    name = name.replace(" 5 mm2", ".5 mm2")
+
+    if ileFaz == "3":
+        output_html += for_5_wires(name, i) if ("5x" in key) else for_3_wires(name,i,j)
+    else:
+        output_html += print_phase_as_given(name, i, phase_nr)
+
+    return output_html,i
 
 def type_of_electrical_circuit(json,phase_nr=1):
     output_html=""
@@ -89,52 +97,25 @@ def type_of_electrical_circuit(json,phase_nr=1):
         if (key not in("nr","miejsce_instalacji","ileFaz")):
             for _ in range(int(value)):
                 if key == "YDY_5x4_mm2":
-                    i = i + 1
-                    name = "Obwód YDY 5x4 mm2"
-                    if ileFaz== "3":
-                        output_html += for_5_wires(name,i)
-                    else:
-                        output_html += print_phase_as_given(name,i,phase_nr)
+                    output_html,i = generate_proper_circuit(key,i,output_html,phase_nr,ileFaz)
 
                 if key == "YKY_5x10_mm2":
-                    i = i + 1
-                    name = "Obwód YKY 5x10 mm2"
-                    if ileFaz== "3":
-                        output_html += for_5_wires(name,i)
-                    else:
-                        output_html += print_phase_as_given(name,i,phase_nr)
+                    output_html,i = generate_proper_circuit(key, i, output_html, phase_nr, ileFaz)
 
                 if key == "YDYp_3x2_5mm2":
-                    i = i + 1
-                    name = "Obwód YDYp 3x2,5 mm2"
-                    if ileFaz== "3":
-                        if j == 3:
-                            j = 0
-                        output_html += for_3_wires(name,i,j)
-                        j = j + 1
-                    else:
-                        output_html += print_phase_as_given(name,i,phase_nr)
+                    if j == 3: j = 0
+                    output_html,i = generate_proper_circuit(key, i, output_html, phase_nr, ileFaz,j)
+                    j = j + 1
 
                 if key == "YDYp_3x1_5_mm2":
-                    i = i + 1
-                    name = "Obwód YDYp 3x1,5 mm2"
-                    if ileFaz== "3":
-                        if j == 3: j = 0
-                        output_html += for_3_wires(name,i,j)
-                        j = j + 1
-                    else:
-                        output_html += print_phase_as_given(name,i,phase_nr)
+                    if j == 3: j = 0
+                    output_html,i = generate_proper_circuit(key, i, output_html, phase_nr, ileFaz,j)
+                    j = j + 1
 
                 if key == "YDYp_5x2_5_mm2":
-                    i = i + 1
-                    name = "Obwód YDYp 5x2,5 mm2"
-                    if ileFaz== "3":
-                        output_html += for_5_wires(name,i)
-                    else:
-                        output_html += print_phase_as_given(name,i,phase_nr)
+                    output_html, i = generate_proper_circuit(key, i, output_html, phase_nr, ileFaz)
 
     return output_html
-
 
 def parse_html_tables_izolacja(json: DataProtocol, html_source):
     output_html = ""
@@ -145,7 +126,6 @@ def parse_html_tables_izolacja(json: DataProtocol, html_source):
     html_source = html_source.replace("{{adres}}", json.adres)
     html_source = html_source.replace("{{miejsce_badan}}", json.miejsce_badan)
     return html_source.replace("{{tabela_rezystancji_izolacji_html}}", output_html)
-
 
 def parse_html_tables_izolacja_mieszkania(json: DataProtocol, html_source):
     output_html = ""
@@ -199,7 +179,6 @@ def parse_html_tables_izolacja_mieszkania(json: DataProtocol, html_source):
     html_source = html_source.replace("{{miejsce_badan}}", json.miejsce_badan)
     return html_source.replace("{{tabela_rezystancji_izolacji_mieszkania_html}}", output_html)
 
-
 def parse_html_tables_izolacja_precise(json: DataProtocol, html_source):
     output_html = ""
     location = ""
@@ -237,7 +216,6 @@ def parse_html_tables_izolacja_precise(json: DataProtocol, html_source):
             """
 
     return html_source.replace("{{tabela_rezystancji_izolacji_html}}", output_html)
-
 
 def parse_html_tables_petla_zwarcia(json: DataProtocol, html_source):
     output_html = ""
@@ -319,7 +297,6 @@ def parse_html_tables_petla_zwarcia(json: DataProtocol, html_source):
     html_source = html_source.replace("{{tabela_pomiaru_petli_zwarcia}}", output_html)
     return html_source
 
-
 def countIA(item: PetlaZwarcia):
     if item["typ"] == "B":
         return 5 * item["amper"]
@@ -330,7 +307,6 @@ def countIA(item: PetlaZwarcia):
     if item["typ"] == "L":
         return 4.9 * item["amper"]
     return None
-
 
 def parse_html_protocol_rcd(json: DataProtocol, html_source):
     pass
@@ -388,7 +364,6 @@ def parse_html_protocol_rcd(json: DataProtocol, html_source):
     html_source = html_source.replace("{{protocol_rcd}}", output_html)
     return html_source
 
-
 def parse_html_protokol_petli_zwarcia(json: DataProtocol, html_source):
     html_source = html_source.replace("{{miejsce_badan}}", json.miejsce_badan)
     html_source = html_source.replace("{{adres}}", json.adres)
@@ -440,7 +415,6 @@ def parse_html_protokol_petli_zwarcia(json: DataProtocol, html_source):
 
     return html_source
 
-
 # use for Polish signs like "ęążć itp"
 def link_callback(uri, rel):
     if uri.startswith("file:///"):
@@ -449,7 +423,6 @@ def link_callback(uri, rel):
     if uri == font_url:
         return "NotoSans-Regular.ttf"
     return uri
-
 
 def create_pdf_file(html_source, file_name):
     pdf_data = BytesIO()
@@ -469,12 +442,11 @@ def create_pdf_file(html_source, file_name):
             f.write(pdf_data.getvalue())
         print("PDF created: " + file_name)
 
-
 if __name__ == "__main__":
     #
     # E:\\POMIARY\\ELEKTRYCZNE\\schematy\\Borkowo_Mietowa\\Borkowo - Mietowa - 3.json
     # not worry about closing files, the with statement takes care of that.
-    with open("""test_json/ex_json.json""", 'r', encoding='utf-8') as file:
+    with open("""E:\POMIARY\ELEKTRYCZNE\schematy\Gdańsk_Mazurska_19_21C\80-513_Gdansk_Mazurska_19_21C.json""", 'r', encoding='utf-8') as file:
         data = json.load(file)
 
     dr = DataProtocol(**data)
@@ -484,13 +456,13 @@ if __name__ == "__main__":
     create_pdf_file(html_source, "protokoly_pdf/badanie_stanu_izolacji_new.pdf")
 
     # TABELE REZYSTANCJI
-    htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji.html")
-    html_source = parse_html_tables_izolacja(dr, htmlTemplate)
-    create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji.pdf")
+    # htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji.html")
+    # html_source = parse_html_tables_izolacja(dr, htmlTemplate)
+    # create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji.pdf")
 
-    # htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji_mieszkania.html")
-    # html_source = parse_html_tables_izolacja_mieszkania(dr, htmlTemplate)
-    # create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji_mieszkania.pdf")
+    htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji_mieszkania.html")
+    html_source = parse_html_tables_izolacja_mieszkania(dr, htmlTemplate)
+    create_pdf_file(html_source, "protokoly_pdf/tabela_rezystancji_izolacji_mieszkania.pdf")
 
     # htmlTemplate = getPdfTemplate("templates/tabela_rezystancji_izolacji.html")
     # html_source = parse_html_tables_izolacja_precise(dr, htmlTemplate)

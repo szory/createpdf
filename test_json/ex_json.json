@@ -217,7 +217,7 @@
             "YDYp_3x2_5mm2": "3",
             "YDYp_3x1_5_mm2": "1",
             "YDYp_5x2_5_mm2": "1",
-            "ileFaz": "1"
+            "ileFaz": "3"
 
         },
         {
@@ -227,7 +227,7 @@
             "YDYp_3x2_5mm2": "4",
             "YDYp_3x1_5_mm2": "1",
             "YDYp_5x2_5_mm2": "1",
-            "ileFaz": "1"
+            "ileFaz": "3"
         },
         {
             "nr": 3,
@@ -236,7 +236,7 @@
             "YDYp_3x2_5mm2": "5",
             "YDYp_3x1_5_mm2": "1",
             "YDYp_5x2_5_mm2": "1",
-            "ileFaz": "3"
+            "ileFaz": "1"
         },
         {
             "nr": 4,
@@ -249,8 +249,8 @@
         },
         {
             "nr": 5,
-            "miejsce_instalacji": "Mieszkanie-4",
-            "YKY_5x10_mm2": "1",
+            "miejsce_instalacji": "Mieszkanie-5",
+            "YDY_5x4_mm2": "1",
             "YDYp_3x2_5mm2": "2",
             "YDYp_3x1_5_mm2": "2",
             "YDYp_5x2_5_mm2": "1",
