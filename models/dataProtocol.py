@@ -15,15 +15,25 @@ class RezystancjaIzolacji:
 
 class RezystancjaIzolacjiMieszkania:
     def __init__(self, nr: str, miejsce_instalacji: str,
-                 YKY_5x10_mm2: str= "0", YDYp_3x2_5mm2: str= "0", YDYp_3x1_5_mm2: str= "0", YDYp_5x2_5_mm2: str= "0",
-                 YDY_5x4_mm2:str= "0",ileFaz: str= "1"):
+                 YKY_5x10_mm2: str= "0", YDYp_3x2_5_mm2: str= "0", YDYp_3x1_5_mm2: str= "0", YDYp_5x2_5_mm2: str= "0",
+                 YDY_5x4_mm2:str= "0",ileFaz: str= "1", YDY_5x6_mm2:str= "0",YDY_5x16_mm2:str= "0", YDY_5x10_mm2:str= "0", YAKXS_4x70_mm2:str= "0",
+                 YAKXS_4x50_mm2:str= "0", YKY_4x25mm2:str="0",YDYp_2x1_5_mm2:str="0",YDYp_2x2_5_mm2:str="0",YDYp_4x2_5_mm2: str= "0"):
         self.nr = nr
         self.miejsce_instalacji = miejsce_instalacji
+        self.YAKXS_4x70_mm2 = YAKXS_4x70_mm2
+        self.YAKXS_4x50_mm2 = YAKXS_4x50_mm2
+        self.YDY_5x16_mm2 = YDY_5x16_mm2
+        self.YDY_5x6_mm2 = YDY_5x6_mm2
         self.YKY_5x10_mm2 = YKY_5x10_mm2
+        self.YDY_5x10_mm2 = YDY_5x10_mm2
         self.YDY_5x4_mm2 = YDY_5x4_mm2
-        self.YDYp_3x2_5mm2 = YDYp_3x2_5mm2
+        self.YDYp_3x2_5mm2 = YDYp_3x2_5_mm2
         self.YDYp_3x1_5_mm2 = YDYp_3x1_5_mm2
         self.YDYp_5x2_5_mm2 = YDYp_5x2_5_mm2
+        self.YKY_4x25mm2 = YKY_4x25mm2
+        self.YDYp_2x1_5_mm2 = YDYp_2x1_5_mm2
+        self.YDYp_2x2_5_mm2 = YDYp_2x2_5_mm2
+        self.YDYp_4x2_5_mm2 = YDYp_4x2_5_mm2
         self.ileFaz = ileFaz
 
 class Rcd:
@@ -54,15 +64,24 @@ class PetlaZwarcia:
 
 class DataProtocol:
     def __init__(self,data: str,adres: str, miejsce_badan: str, YKY_5x10_mm2: str, YDYp_3x2_5mm2: str, YDYp_3x1_5_mm2: str, YDYp_5x2_5_mm2: str,
-                 petla_zwarcia: list[PetlaZwarcia], rcd: list[Rcd], rezystancjaIzolacji: list[RezystancjaIzolacji],uklad_zasilania: str, napiecie_sieci_zasilajacej: str, YDY_5x4_mm2:str= "0",rezystancjaIzolacjiMieszkania: list[RezystancjaIzolacjiMieszkania]=[],ileFaz: str= "3"):
+                 petla_zwarcia: list[PetlaZwarcia], rcd: list[Rcd], rezystancjaIzolacji: list[RezystancjaIzolacji],uklad_zasilania: str, napiecie_sieci_zasilajacej: str, YDY_5x4_mm2:str= "0",
+                 rezystancjaIzolacjiMieszkania: list[RezystancjaIzolacjiMieszkania]=[],ileFaz: str= "3",YDY_5x6_mm2:str= "0",YKY_4x10_mm2:str="0", YDY_3x6_mm2:str="0",YDY_5x16_mm2:str="0",
+                 YDYp_2x1_5_mm2:str="0",YDYp_2x2_5_mm2:str="0",YAKXS_5x120_mm2:str="0"):
         self.data = data
         self.adres = adres
         self.miejsce_badan = miejsce_badan
+        self.YAKXS_5x120_mm2 = YAKXS_5x120_mm2
+        self.YKY_4x10_mm2 = YKY_4x10_mm2
         self.YKY_5x10_mm2 = YKY_5x10_mm2
+        self.YDY_5x16_mm2 = YDY_5x16_mm2
+        self.YDY_5x6_mm2 = YDY_5x6_mm2
+        self.YDY_3x6_mm2 = YDY_3x6_mm2
         self.YDY_5x4_mm2 = YDY_5x4_mm2
         self.YDYp_3x2_5mm2 = YDYp_3x2_5mm2
         self.YDYp_3x1_5_mm2 = YDYp_3x1_5_mm2
         self.YDYp_5x2_5_mm2 = YDYp_5x2_5_mm2
+        self.YDYp_2x1_5_mm2 = YDYp_2x1_5_mm2
+        self.YDYp_2x2_5_mm2 = YDYp_2x2_5_mm2
         self.petla_zwarcia = petla_zwarcia
         self.rcd = rcd
         self.rezystancjaIzolacji = rezystancjaIzolacji

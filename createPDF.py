@@ -49,11 +49,11 @@ def print_phase_as_given(name,i,phase_nr):
                                         <td>{'180' if phase_nr == 1 else ' '}</td>
                                         <td>{'180' if phase_nr == 2 else ' '}</td>
                                         <td>{'180' if phase_nr == 3 else ' '}</td>
-                                        <td>180</td><td class="td60px">dobra</td>
+                                        <td>{'180' if not ("2x" in name) else ' '}</td><td class="td60px">dobra</td>
                                     </tr>"""
 
 def for_5_wires(name,i):
-    return f"<tr><td>{str(i)}</td><td>{name}</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td class='td60px'>180</td><td>dobra</td></tr>"
+    return f"<tr><td>{str(i)}</td><td>{name}</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td>180</td><td class='td60px'>{'180' if not ('4x' in name) else ' '}</td><td>dobra</td></tr>"
 
 def for_3_wires(name,i,j):
     return f"""
@@ -65,17 +65,17 @@ def for_3_wires(name,i,j):
         <td class="tdClass">{('180' if j == 0 else '')}</td>
         <td class="tdClass">{('180' if j == 1 else '')}</td>
         <td class="tdClass">{('180' if j == 2 else '')}</td>
-        <td class="td60px">180</td><td class="td60px">dobra</td>
+        <td class="td60px">{'180' if not ("2x" in name) else ' '}</td><td class="td60px">dobra</td>
     </tr>"""
 
 def generate_proper_circuit(key,i,output_html,phase_nr,ileFaz,j=0):
     i = i + 1
     name = f"Obwód {key.replace('_',' ')}"
-    name = name.replace(" 5mm2",".5 mm2")
-    name = name.replace(" 5 mm2", ".5 mm2")
+    name = name.replace(" 5mm2",",5 mm2")
+    name = name.replace(" 5 mm2", ",5 mm2")
 
     if ileFaz == "3":
-        output_html += for_5_wires(name, i) if ("5x" in key) else for_3_wires(name,i,j)
+        output_html += for_5_wires(name, i) if ("5x" in key) or ("4x" in key) else for_3_wires(name,i,j)
     else:
         output_html += print_phase_as_given(name, i, phase_nr)
 
@@ -96,11 +96,46 @@ def type_of_electrical_circuit(json,phase_nr=1):
 
         if (key not in("nr","miejsce_instalacji","ileFaz")):
             for _ in range(int(value)):
+                if key == "YAKXS_5x120_mm2":
+                    output_html,i = generate_proper_circuit(key,i,output_html,phase_nr,ileFaz)
+
+                if key == "YAKXS_4x70_mm2":
+                    output_html,i = generate_proper_circuit(key,i,output_html,phase_nr,ileFaz)
+
+                if key == "YAKXS_4x50_mm2":
+                    output_html,i = generate_proper_circuit(key,i,output_html,phase_nr,ileFaz)
+
+                if key == "YKY_4x10_mm2":
+                    output_html,i = generate_proper_circuit(key,i,output_html,phase_nr,ileFaz)
+
+                if key == "OWY_5x6_mm2":
+                    output_html,i = generate_proper_circuit(key,i,output_html,phase_nr,ileFaz)
+
+                if key == "YDY_5x16_mm2":
+                    output_html,i = generate_proper_circuit(key,i,output_html,phase_nr,ileFaz)
+
+                if key == "YDY_5x6_mm2":
+                    output_html,i = generate_proper_circuit(key,i,output_html,phase_nr,ileFaz)
+
+                if key == "YDY_3x6_mm2":
+                    if j == 3: j = 0
+                    output_html,i = generate_proper_circuit(key,i,output_html,phase_nr,ileFaz,j)
+                    j = j + 1
+
                 if key == "YDY_5x4_mm2":
                     output_html,i = generate_proper_circuit(key,i,output_html,phase_nr,ileFaz)
 
+                if key == "YDY_3x4_mm2":
+                    output_html,i = generate_proper_circuit(key,i,output_html,phase_nr,ileFaz)
+
+
                 if key == "YKY_5x10_mm2":
                     output_html,i = generate_proper_circuit(key, i, output_html, phase_nr, ileFaz)
+
+                if key == "YDY_3x2_5mm2":
+                    if j == 3: j = 0
+                    output_html,i = generate_proper_circuit(key, i, output_html, phase_nr, ileFaz,j)
+                    j = j + 1
 
                 if key == "YDYp_3x2_5mm2":
                     if j == 3: j = 0
@@ -114,6 +149,22 @@ def type_of_electrical_circuit(json,phase_nr=1):
 
                 if key == "YDYp_5x2_5_mm2":
                     output_html, i = generate_proper_circuit(key, i, output_html, phase_nr, ileFaz)
+
+                if key == "YDYp_2x2_5_mm2":
+                    if j == 3: j = 0
+                    output_html,i = generate_proper_circuit(key, i, output_html, phase_nr, ileFaz,j)
+                    j = j + 1
+
+                if key == "YDYp_2x1_5_mm2":
+                    if j == 3: j = 0
+                    output_html,i = generate_proper_circuit(key, i, output_html, phase_nr, ileFaz,j)
+                    j = j + 1
+
+                if key == "YDYp_4x2_5_mm2":
+                    if j == 3: j = 0
+                    output_html,i = generate_proper_circuit(key, i, output_html, phase_nr, ileFaz,j)
+                    j = j + 1
+
 
     return output_html
 
@@ -243,27 +294,34 @@ def parse_html_tables_petla_zwarcia(json: DataProtocol, html_source):
         # zawsze napięcie 230V (między fazą a uziemieniem)
         za_obl = 230 / ia
 
-        ocena = ""
-        # ocena = ('tak' if item["pomiar"] <= za_obl else 'nie')
-        if type(item["pomiar"]) == float:
-            ocena = ('tak' if item["pomiar"] <= za_obl else 'nie')
-        elif type(item["pomiar"]) == str:
-            if (item["pomiar"] == "NU" or item["pomiar"] == "BU"):
-                ocena = "nie"
-                isFailure = True
+        if "BRAK" not in item["nr"]:
+            ocena = ""
+            # ocena = ('tak' if item["pomiar"] <= za_obl else 'nie')
+            if type(item["pomiar"]) == float:
+                ocena = ('tak' if item["pomiar"] <= za_obl else 'nie')
+            elif type(item["pomiar"]) == str:
+                if (item["pomiar"] == "NU" or item["pomiar"] == "BU"):
+                    ocena = "nie"
+                    isFailure = True
 
-        output_html += """
-                    <tr>
-                        <td class="lp">""" + str(item["nr"]) + """</td>
-                        <td>Gniazdo """ + str(item["volt"]) + """V + PE</td>
-                        <td class='td100px'>""" + item["typ"] + """</td>
-                        <td>""" + str(item["amper"]) + """</td>
-                        <td>0.4</td>
-                        <td>""" + str(ia) + """</td>
-                        <td class='td60px'>""" + str(item["pomiar"]) + """</td>
-                        <td class='td70px'>""" + str(format(za_obl, '.2f')) + """</td>
-                        <td class='td70px'>""" + ocena + """</td>
-                    </tr>"""
+            output_html += """
+                        <tr>
+                            <td class="lp">""" + str(item["nr"]) + """</td>
+                            <td>Gniazdo """ + str(item["volt"]) + """V + PE</td>
+                            <td class='td100px'>""" + item["typ"] + """</td>
+                            <td>""" + str(item["amper"]) + """</td>
+                            <td>0.4</td>
+                            <td>""" + str(ia) + """</td>
+                            <td class='td60px'>""" + str(item["pomiar"]) + """</td>
+                            <td class='td70px'>""" + str(format(za_obl, '.2f')) + """</td>
+                            <td class='td70px'>""" + ocena + """</td>
+                        </tr>"""
+        else:
+            output_html += """
+                        <tr>
+                            <td class="lp"></td>
+                            <td colspan=8 style='text-align: center'>BRAK LOKATORA</td>
+                        </tr>"""
 
     if isFailure:
         tabela_legenda += """
@@ -308,65 +366,75 @@ def countIA(item: PetlaZwarcia):
         return 4.9 * item["amper"]
     return None
 
+
 def parse_html_protocol_rcd(json: DataProtocol, html_source):
     pass
     output_html = ""
     rcd_items: list[Rcd] = json.rcd
 
-    print(rcd_items)
-
     producent = ""
     miejsce_instalacji = ""
     i = 0
     for rcd_item in rcd_items:
-        if rcd_item["producent"] != producent or rcd_item["miejsce_instalacji"] != miejsce_instalacji:
-            producent = rcd_item["producent"]
-            miejsce_instalacji = rcd_item["miejsce_instalacji"]
+        if "BRAK_LOKATORA" not in rcd_item["producent"]:
+            if rcd_item["producent"] != producent or rcd_item["miejsce_instalacji"] != miejsce_instalacji:
+                producent = rcd_item["producent"]
+                miejsce_instalacji = rcd_item["miejsce_instalacji"]
+
+                output_html += """
+                        <div class="container">
+                            <div>Producent: """ + rcd_item["producent"] + """</div>
+                            <div>Miejsce zainstalowania TR: """ + rcd_item["miejsce_instalacji"] + """</div>
+                        </div>
+                        <table><tbody>
+                          <tr>
+                            <td class="lp">Lp.</td>
+                            <td>Obwody chronione wyłącznikiem</td>
+                            <td class='td100px'>Typ wyłącznika</td>
+                            <td class="tdClass">In [A]</td>
+                            <td class="tdClass">In [mA]</td>
+                            <td class="tdClass">I [mA]</td> 
+                            <td class="tdClass">Ta [ms]</td>
+                        </tr>
+                """
+
             output_html += """
-                    <div class="container">
-                        <div>Producent: """ + rcd_item["producent"] + """</div>
-                        <div>Miejsce zainstalowania TR: """ + rcd_item["miejsce_instalacji"] + """</div>
-                    </div>
-                    <table><tbody>
+                          <tr>
+                            <td class='lp'>""" + rcd_item["nr"] + """</td>
+                            <td>Gniazdo """ + str(rcd_item["volt"]) + """ V+PE</td>
+                            <td class='td100px'>""" + rcd_item["typ"] + """</td>
+                            <td class='td70px'>""" + str(rcd_item["amper_rcd"]) + """</td>
+                            <td class='td70px'>""" + str(rcd_item["amper_wywolania"]) + """</td>
+                            <td class='td70px'>""" + str(rcd_item["amper_wywolania_pomiar"]) + """</td>
+                            <td class='td70px'>""" + str(rcd_item["czas_pomiar"]) + """</td>
+                          </tr>"""
+            output_html += f"""
                       <tr>
-                        <td class="lp">Lp.</td>
-                        <td>Obwody chronione wyłącznikiem</td>
-                        <td class='td100px'>Typ wyłącznika</td>
-                        <td class="tdClass">In [A]</td>
-                        <td class="tdClass">In [mA]</td>
-                        <td class="tdClass">I [mA]</td> 
-                        <td class="tdClass">Ta [ms]</td>
-                    </tr>
-            """
-
-        output_html += """
-                      <tr>
-                        <td class='lp'>""" + rcd_item["nr"] + """</td>
-                        <td>Gniazdo """ + str(rcd_item["volt"]) + """ V+PE</td>
-                        <td class='td100px'>""" + rcd_item["typ"] + """</td>
-                        <td class='td70px'>""" + str(rcd_item["amper_rcd"]) + """</td>
-                        <td class='td70px'>""" + str(rcd_item["amper_wywolania"]) + """</td>
-                        <td class='td70px'>""" + str(rcd_item["amper_wywolania_pomiar"]) + """</td>
-                        <td class='td70px'>""" + str(rcd_item["czas_pomiar"]) + """</td>
+                        <td class='lp'></td>
+                        <td>Orzeczenie końcowe:</td>
+                        <td colspan="5">{rcd_ocena(rcd_item)}</td>
                       </tr>"""
-        output_html += f"""
-                  <tr>
-                    <td class='lp'></td>
-                    <td>Orzeczenie końcowe:</td>
-                    <td colspan="5">{rcd_ocena(rcd_item)}</td>
-                  </tr>"""
 
 
-        # print("len(rcd_items)", len(rcd_items))
-        if ((i + 1) < len(rcd_items)):
-            if (rcd_items[i]["producent"] != rcd_items[i + 1]["producent"] or
-                    rcd_items[i]["miejsce_instalacji"] != rcd_items[i + 1]["miejsce_instalacji"]):
+            # print("len(rcd_items)", len(rcd_items))
+            if ((i + 1) < len(rcd_items)):
+                if (rcd_items[i]["producent"] != rcd_items[i + 1]["producent"] or
+                        rcd_items[i]["miejsce_instalacji"] != rcd_items[i + 1]["miejsce_instalacji"]):
+                    output_html += "</tbody></table>"
+                    # output_html += "Orzeczenie końcowe: wyłączniki różnicowo-prądowe działają prawidłowo"
+                    output_html += "<br/><br/><br/>"
+            else:
                 output_html += "</tbody></table>"
                 # output_html += "Orzeczenie końcowe: wyłączniki różnicowo-prądowe działają prawidłowo"
-                output_html += "<br/><br/><br/>"
         else:
-            output_html += "</tbody></table>"
-            # output_html += "Orzeczenie końcowe: wyłączniki różnicowo-prądowe działają prawidłowo"
+            output_html+=f"""
+            <table><tbody>
+                <tr>
+                    <td style="width: 100%; text-align: center"><h2>{str(rcd_item['miejsce_instalacji'])} - BRAK LOKATORA</h2></td>
+                </tr>
+            </tbody></table>
+            """
+            output_html += "<br/><br/>"
         i = i + 1
 
     html_source = html_source.replace("{{miejsce_badan}}", json.miejsce_badan)
@@ -385,6 +453,7 @@ def rcd_ocena(rcd_item):
         pass
 
     return output
+
 
 def parse_html_protokol_petli_zwarcia(json: DataProtocol, html_source):
     html_source = html_source.replace("{{miejsce_badan}}", json.miejsce_badan)
@@ -437,6 +506,7 @@ def parse_html_protokol_petli_zwarcia(json: DataProtocol, html_source):
 
     return html_source
 
+
 # use for Polish signs like "ęążć itp"
 def link_callback(uri, rel):
     if uri.startswith("file:///"):
@@ -445,6 +515,7 @@ def link_callback(uri, rel):
     if uri == font_url:
         return "NotoSans-Regular.ttf"
     return uri
+
 
 def create_pdf_file(html_source, file_name):
     pdf_data = BytesIO()
@@ -468,7 +539,7 @@ if __name__ == "__main__":
     #
     # E:\\POMIARY\\ELEKTRYCZNE\\schematy\\Borkowo_Mietowa\\Borkowo - Mietowa - 3.json
     # not worry about closing files, the with statement takes care of that.
-    with open("""E:\POMIARY\ELEKTRYCZNE\schematy\Gdańsk_Zamiejska_18A\A\80-036_Gdansk_Zamiejska_18A.json""", 'r', encoding='utf-8') as file:
+    with open("""E:\POMIARY\ELEKTRYCZNE\schematy\Rotmanka-Piłsudskiego-24\Rotmanka-Piłsudskiego-24.json""", 'r', encoding='utf-8') as file:
         data = json.load(file)
 
     dr = DataProtocol(**data)
