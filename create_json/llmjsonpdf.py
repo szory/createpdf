@@ -1,3 +1,11 @@
+"""
+ w claude wpisz te fraze żeby wygenerować JSON i sprawdzić czy zgadza sie wynik z
+ wejściowym promptem.
+
+ check generated json structure with **query** variable in llmjsonpdf.py
+
+"""
+
 from langchain_ollama import ChatOllama
 from langchain_core.prompts import (ChatPromptTemplate)
 from langchain_core.output_parsers import StrOutputParser
@@ -37,6 +45,7 @@ def json_details_of_offer(query):
 
             "przewody": {{
                 "YKY_5x10_mm2": ilość obwodów (domyślna wartość "0"), typ string,
+                "YAKXS_5x25_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                 "YDYp_3x2_5_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                 "YDYp_3x1_5_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                 "YDYp_5x2_5_mm2": ilość obwodów (domyślna wartość "0"), typ string
@@ -74,6 +83,7 @@ def json_details_of_offer(query):
                     "ileFaz": ilość faz (domyślna wartość "3", dostępne wartości["1","3"]), typ string,
                     "przewody": {{
                         "YKY_5x10_mm2": ilość obwodów (domyślna wartość "0"), typ string,
+                        "YAKXS_5x25_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                         "YDYp_3x2_5_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                         "YDYp_3x1_5_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                         "YDYp_5x2_5_mm2": ilość obwodów (domyślna wartość "0"), typ string
@@ -109,57 +119,39 @@ def json_details_of_offer(query):
 
 if __name__ == "__main__":
     query="""
-        data pomiarów elektrycznych: 2026-10-09,
-        adres pomiarów elektrycznych: "80-178 Gdańsk, Wrześniowa 17",
-        miejsce badań: budynek jednorodzinny,
+        data pomiarów elektrycznych: 2026-10-16,
+        adres pomiarów elektrycznych: "80-007 Gdańsk, Trakt św. Wojciecha 378/1",
+        miejsce badań: budynek szeregowy,
         pętle zwarcia gniazd:
-        - gniazdo 0.48, miejsce instalacji: garaż,
-        - gniazdo 0.47, miejsce instalacji: garaż,
-        - gniazdo 0.45, miejsce instalacji: garaż,
-        - gniazdo 0.51, miejsce instalacji: garaż,
-        - gniazdo 0.39, miejsce instalacji: garaż,
-        - gniazdo 0.46, miejsce instalacji: garaż,
+        - gniazdo 0.44, miejsce instalacji: kuchnia,
+        - gniazdo 0.48, miejsce instalacji: kuchnia,
+        - gniazdo 0.51, miejsce instalacji: kuchnia,
+        - gniazdo 0.54, miejsce instalacji: kuchnia,
         
-        - gniazdo 0.58, miejsce instalacji: kuchnia,
-        - gniazdo 0.69, miejsce instalacji: kuchnia,
-        - gniazdo 0.72, miejsce instalacji: kuchnia,
-        - gniazdo 0.50, miejsce instalacji: kuchnia,
-        - gniazdo 0.91, miejsce instalacji: kuchnia,
-        - gniazdo 0.92, miejsce instalacji: kuchnia,
+        - gniazdo 0.41, miejsce instalacji: łazienka-parter,
         
-        - gniazdo 0.42, miejsce instalacji: łazienka-parter,
-        - gniazdo 0.48, miejsce instalacji: łazienka-parter,
-        - gniazdo 0.42, miejsce instalacji: łazienka-parter,
+        - gniazdo 0.44, miejsce instalacji: łazienka-piętro,
+        - gniazdo 0.46, miejsce instalacji: łazienka-piętro,
+        - gniazdo 0.42, miejsce instalacji: łazienka-piętro,
+        - gniazdo 0.48, miejsce instalacji: łazienka-piętro,
         
-        - gniazdo 0.83, miejsce instalacji: weranda
+        - gniazdo 0.47, miejsce instalacji: kotłownia,
         
-        - gniazdo 0.91, miejsce instalacji: pralnia,
-        - gniazdo 0.91, miejsce instalacji: pralnia,
-        - gniazdo 0.81, miejsce instalacji: pralnia,
-        - gniazdo 0.82, miejsce instalacji: pralnia,
-
-        - gniazdo 0.72, miejsce instalacji: łazienka-piętro,
-        - gniazdo 0.72, miejsce instalacji: łazienka-piętro,
-        - gniazdo 0.81, miejsce instalacji: łazienka-piętro,
+        - gniazdo 0.72, miejsce instalacji: taras
         
         rcd:
-        - producent: "MOELLER", nr: 1, miejsce instalacji: "garaż", volt: 230, typ: "CKN6 B16/2/003", amper_wywolania_pomiar: 24, czas_pomiar: 6,
-        - producent: "MOELLER", nr: 2, miejsce instalacji: "garaż", volt: 230, typ: "CKN6 B16/2/003", amper_wywolania_pomiar: 21, czas_pomiar: 16,
-        - producent: "MOELLER", nr: 3, miejsce instalacji: "garaż", volt: 230, typ: "CKN6 B16/2/003", amper_wywolania_pomiar: 21, czas_pomiar: 17,
-        - producent: "MOELLER", nr: 4, miejsce instalacji: "garaż", volt: 230, typ: "CKN6 B16/2/003", amper_wywolania_pomiar: 21, czas_pomiar: 17
-        - producent: "MOELLER", nr: 5, miejsce instalacji: "garaż", volt: 230, typ: "CKN6 B16/2/003", amper_wywolania_pomiar: 21, czas_pomiar: 17,
-        - producent: "MOELLER", nr: 6, miejsce instalacji: "garaż", volt: 230, typ: "CKN6 B16/2/003", amper_wywolania_pomiar: 27, czas_pomiar: 17,
-        - producent: "MOELLER", nr: 7, miejsce instalacji: "garaż", volt: 230, typ: "CFI6 25/4/003", amper_wywolania_pomiar: 26, czas_pomiar: 21,
+        - producent: "ETON", nr: 1, miejsce instalacji: "kotłownia", volt: 230, typ: "HNB B16/2/003", amper_wywolania_pomiar: 24, czas_pomiar: 6,
+        - producent: "ETON", nr: 2, miejsce instalacji: "kotłownia", volt: 230, typ: "HNC 40/4/003", amper_wywolania_pomiar: 24, czas_pomiar: 9,
 
         rezystancja izolacji mieszkania:
-            miejsce instalacji: "budynek jednorodzinny",
-            - YKY_5x10_mm2: 1,
-            - YDYp_3x2_5_mm2: 8,
-            - YDYp_3x1_5_mm2: 7,
+            miejsce instalacji: "budynek szeregowy",
+            - YAKXS_5x25_mm2: 1,
+            - YDYp_3x2_5_mm2: 12,
+            - YDYp_3x1_5_mm2: 5,
             - YDYp_5x2_5_mm2: 1,
             - ileFaz: 3
             
-        uklad_zasilania: TN-C-S,
+        uklad_zasilania: TN-S,
 	    napięcie sieci zasilającej: 400V
     """
     json_details_of_offer(query)

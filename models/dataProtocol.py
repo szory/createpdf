@@ -21,6 +21,7 @@ class TypPrzewodu(Enum):
     YAKXS_5x120_mm2 = "YAKXS 5x120 mm2"
     YAKXS_4x70_mm2 = "YAKXS 4x70 mm2"
     YAKXS_4x50_mm2 = "YAKXS 4x50 mm2"
+    YAKXS_5x25_mm2 = "YAKXS 5x25 mm2"
     YKY_4x25_mm2 = "YKY 4x25 mm2"
     YKY_4x10_mm2 = "YKY 4x10 mm2"
     YKY_5x10_mm2 = "YKY 5x10 mm2"
