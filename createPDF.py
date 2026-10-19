@@ -285,7 +285,7 @@ def countIA(item: PetlaZwarcia):
     if item["typ"] == "C":
         return 10 * item["amper"]
     if item["typ"] == "gF":
-        return 2.5 * item["amper"]
+        return 3.8 * item["amper"]
     if item["typ"] == "L":
         return 4.9 * item["amper"]
     return None
@@ -463,7 +463,7 @@ if __name__ == "__main__":
     #
     # E:\\POMIARY\\ELEKTRYCZNE\\schematy\\Borkowo_Mietowa\\Borkowo - Mietowa - 3.json
     # not worry about closing files, the with statement takes care of that.
-    with open("""E:\POMIARY\ELEKTRYCZNE\schematy\Bojano-Modrzewiowa-3\Bojano-Modrzewiowa-3.json""", 'r', encoding='utf-8') as file:
+    with open("""E:\INFORMATYKA\PROGRAMOWANIE\PYTHON\createpdf\\test_json\\android_app_json.json""", 'r', encoding='utf-8') as file:
         data = json.load(file)
 
     dr = DataProtocol(**data)
