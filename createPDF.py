@@ -208,7 +208,7 @@ def parse_html_tables_petla_zwarcia(json: DataProtocol, html_source):
                             <td class='td100px'></td>
                             <td class='tdClass'></td>
                             <td class='tdClass'></td>
-                            <td class='tdClass'></td>
+                            <td></td>
                             <td></td>
                             <td></td>
                             <td></td>
@@ -235,7 +235,7 @@ def parse_html_tables_petla_zwarcia(json: DataProtocol, html_source):
                             <td class='td100px'>""" + item["typ"] + """</td>
                             <td>""" + str(item["amper"]) + """</td>
                             <td>0.4</td>
-                            <td>""" + str(ia) + """</td>
+                            <td class='td60px'>""" + str(ia) + """</td>
                             <td class='td60px'>""" + str(item["pomiar"]) + """</td>
                             <td class='td70px'>""" + str(format(za_obl, '.2f')) + """</td>
                             <td class='td70px'>""" + ocena + """</td>
@@ -286,6 +286,8 @@ def countIA(item: PetlaZwarcia):
         return 10 * item["amper"]
     if item["typ"] == "gF":
         return 3.8 * item["amper"]
+    if item["typ"] == "gG":
+        return 5.4 * item["amper"]
     if item["typ"] == "L":
         return 4.9 * item["amper"]
     return None
@@ -463,7 +465,7 @@ if __name__ == "__main__":
     #
     # E:\\POMIARY\\ELEKTRYCZNE\\schematy\\Borkowo_Mietowa\\Borkowo - Mietowa - 3.json
     # not worry about closing files, the with statement takes care of that.
-    with open("""E:\INFORMATYKA\PROGRAMOWANIE\PYTHON\createpdf\\test_json\\android_app_json.json""", 'r', encoding='utf-8') as file:
+    with open("""E:\POMIARY\ELEKTRYCZNE\schematy\Reda-Okrezna-7A\Reda-Okrezna-7A.json""", 'r', encoding='utf-8') as file:
         data = json.load(file)
 
     dr = DataProtocol(**data)

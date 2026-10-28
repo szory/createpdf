@@ -50,8 +50,10 @@ def json_details_of_offer(query):
             "przewody": {{
                 "YKY_5x10_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                 "YAKXS_5x25_mm2": ilość obwodów (domyślna wartość "0"), typ string,
+                "YDY_5x4_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                 "YDYp_3x2_5_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                 "YDYp_3x1_5_mm2": ilość obwodów (domyślna wartość "0"), typ string,
+                "YDYp_2x2_5_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                 "YDYp_5x2_5_mm2": ilość obwodów (domyślna wartość "0"), typ string
             }},
 
@@ -59,7 +61,7 @@ def json_details_of_offer(query):
                 {{
                     "lokalizacja": miejsce instalacji (np. gniazda wtykowego), typ string,
                     "nr": numer porządkowy (każdy następny numer będzie większy o jeden, zaczynając od 1), typ string,
-                    "pomiar": odczyt liczbowy (np. 0.56), typ float,
+                    "pomiar": odczyt liczbowy (np. 0.56), typ float, a jeśli w opisie jest "NU" to wartość "NU", typ string (każde gniazdo z opisu musi mieć swój wpis, także z "NU"),
                     "typ": typ bezpiecznika (domyślna-wartość="B", dostępne typy["B","C","gF","L"]), typ string,
                     "amper": ilość amper bezpiecznika (domyślna-wartość=16), typ int,
                     "volt": ilość volt (domyślna-wartość=230, dostępne wartości[230,400]), typ int
@@ -89,8 +91,10 @@ def json_details_of_offer(query):
                         "YKY_5x10_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                         "YAKXS_5x25_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                         "YDY_3x4_mm2": ilość obwodów (domyślna wartość "0"), typ string,
+                        "YDY_5x4_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                         "YDYp_3x2_5_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                         "YDYp_3x1_5_mm2": ilość obwodów (domyślna wartość "0"), typ string,
+                        "YDYp_2x2_5_mm2": ilość obwodów (domyślna wartość "0"), typ string,
                         "YDYp_5x2_5_mm2": ilość obwodów (domyślna wartość "0"), typ string
                     }}
                 }}
@@ -122,38 +126,69 @@ def json_details_of_offer(query):
 
 if __name__ == "__main__":
     query="""
-        data pomiarów elektrycznych: 2026-10-17,
-        adres pomiarów elektrycznych: "82-103 Stegna Mikoszewo, Gdańska 43",
+        data pomiarów elektrycznych: 2026-10-27,
+        adres pomiarów elektrycznych: "84-240 Reda, Okrężna 7a",
         miejsce badań: budynek jednorodzinny,
         pętle zwarcia gniazd:
-        - gniazdo 0.35, miejsce instalacji: kuchnia-parter,
-        
-        - gniazdo 0.40, typ: B, amper: 20, miejsce instalacji: łazienka-parter,
-        - gniazdo 0.42, typ: B, amper: 20, miejsce instalacji: łazienka-parter,        
-        
-        - gniazdo 0.66, miejsce instalacji: kuchnia-piętro,
-        - gniazdo 0.65, miejsce instalacji: kuchnia-piętro,
-        - gniazdo 0.60, miejsce instalacji: kuchnia-piętro,
-        
-        - gniazdo 0.62, miejsce instalacji: łazienka-piętro,
-        
-        - gniazdo 0.55, miejsce instalacji: łazienka-parter-1,
-        
-        - gniazdo 0.50, miejsce instalacji: kuchnia-parter-1
-
+            - gniazdo 0.76, miejsce instalacji: Kuchnia-Pokój-Piętro,
+            - gniazdo 0.76, miejsce instalacji: Kuchnia-Pokój-Piętro,
+            - gniazdo 0.82, miejsce instalacji: Kuchnia-Pokój-Piętro,
+            - gniazdo 0.67, miejsce instalacji: Kuchnia-Pokój-Piętro,
+            - gniazdo 0.69, miejsce instalacji: Kuchnia-Pokój-Piętro,
+            - gniazdo 0.69, miejsce instalacji: Kuchnia-Pokój-Piętro,
+            
+            - gniazdo 1.02, miejsce instalacji: Kuchnia-Pokój-Piętro,
+            - gniazdo 1.08, miejsce instalacji: Kuchnia-Pokój-Piętro,
+            - gniazdo 1.13, miejsce instalacji: Kuchnia-Pokój-Piętro,
+            - gniazdo 1.13, miejsce instalacji: Kuchnia-Pokój-Piętro,
+            
+            - gniazdo 1.18, miejsce instalacji: Kuchnia-Pokój-Piętro,
+            - gniazdo 0.76, miejsce instalacji: Kuchnia-Pokój-Piętro,
+            
+            - gniazdo 0.9, miejsce instalacji: Łazienka-Piętro,
+            - gniazdo 1.0, miejsce instalacji: Łazienka-Piętro,
+            
+            - gniazdo 0.86, miejsce instalacji: Pralnia-Parter,
+            - gniazdo 0.91, miejsce instalacji: Pralnia-Parter,
+            - gniazdo 0.90, miejsce instalacji: Pralnia-Parter,
+            
+            - gniazdo 0.85, miejsce instalacji: Bojler-Parter,
+            
+            - gniazdo 0.80, miejsce instalacji: Łazienka-Parter,
+            
+            - gniazdo 0.83, miejsce instalacji: Pokój-Przy-Pralnia-Parter,
+            - gniazdo 0.86, miejsce instalacji: Pokój-Przy-Pralnia-Parter,
+            - gniazdo 0.88, miejsce instalacji: Pokój-Przy-Pralnia-Parter,
+            
+            - gniazdo 0.96, miejsce instalacji: Pokój-Przy-Łazienka-Parter,        
+            - gniazdo 0.93, miejsce instalacji: Pokój-Przy-Łazienka-Parter,
+            - gniazdo 1.02, miejsce instalacji: Pokój-Przy-Łazienka-Parter,
+            
+            - gniazdo 0.96, miejsce instalacji: Pokój-Parter-1,
+            
+            - gniazdo 0.89, miejsce instalacji: Pokój-Parter-2,
+            - gniazdo 0.85, miejsce instalacji: Pokój-Parter-2,
+            - gniazdo 0.97, miejsce instalacji: Pokój-Parter-2,
+            - gniazdo 0.98, miejsce instalacji: Pokój-Parter-2,
+            
+            - gniazdo 0.90, miejsce instalacji: Taras,
+            
+            - gniazdo 0.93, miejsce instalacji: Budynek
         
         rcd:
-            BRAK RCD
+            - producent: "ABB", nr: 1, miejsce instalacji: "Przedpokój", volt: 230, typ: "F364 40/4/003", amper_wywolania_pomiar: 24, czas_pomiar: 21,
+
 
         rezystancja izolacji mieszkania:
-            miejsce instalacji: "budynek jednorodzinny",
-            - YDY_3x4_mm2: 1,
-            - YDYp_3x2_5_mm2: 4,
-            - YDYp_3x1_5_mm2: 1,
-            - YDYp_5x2_5_mm2: 0,
-            - ileFaz: 1
+            miejsce instalacji: "budynek-jednorodzinny",
+            przewody:
+            - YKY_5x10_mm2: 1,
+            - YDYp_3x2_5_mm2: 8,
+            - YDYp_3x1_5_mm2: 4,
+            - YDYp_5x2_5_mm2: 1,
+            - ileFaz: 3
             
         uklad_zasilania: TN-S,
-	    napięcie sieci zasilającej: 230V
+	    napięcie sieci zasilającej: 400V
     """
     json_details_of_offer(query)
