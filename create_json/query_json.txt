@@ -1,0 +1,41 @@
+data pomiarów elektrycznych: 2026-10-27,
+adres pomiarów elektrycznych: "84-240 Reda, Okrężna 7a",
+miejsce badań: budynek jednorodzinny,
+pętle zwarcia gniazd:
+    - gniazdo 0.76, miejsce instalacji: Kuchnia-Pokój-Piętro,
+    - gniazdo 0.76, miejsce instalacji: Kuchnia-Pokój-Piętro,
+    - gniazdo 0.82, miejsce instalacji: Kuchnia-Pokój-Piętro,
+    - gniazdo 0.67, miejsce instalacji: Kuchnia-Pokój-Piętro,
+    - gniazdo 0.69, miejsce instalacji: Kuchnia-Pokój-Piętro,
+    - gniazdo 0.69, miejsce instalacji: Kuchnia-Pokój-Piętro,
+
+    - gniazdo 1.02, miejsce instalacji: Kuchnia-Pokój-Piętro,
+    - gniazdo 1.08, miejsce instalacji: Kuchnia-Pokój-Piętro,
+    - gniazdo 1.13, miejsce instalacji: Kuchnia-Pokój-Piętro,
+    - gniazdo 1.13, miejsce instalacji: Kuchnia-Pokój-Piętro,
+
+    - gniazdo 1.18, miejsce instalacji: Kuchnia-Pokój-Piętro,
+    - gniazdo 0.76, miejsce instalacji: Kuchnia-Pokój-Piętro,
+
+    - gniazdo 0.9, miejsce instalacji: Łazienka-Piętro,
+    - gniazdo 1.0, miejsce instalacji: Łazienka-Piętro,
+
+    - gniazdo 0.86, miejsce instalacji: Pralnia-Parter,
+    - gniazdo 0.91, miejsce instalacji: Pralnia-Parter,
+    - gniazdo 0.90, miejsce instalacji: Pralnia-Parter,
+
+rcd:
+    - producent: "ABB", nr: 1, miejsce instalacji: "Przedpokój", volt: 230, typ: "F364 40/4/003", amper_wywolania_pomiar: 24, czas_pomiar: 21,
+
+
+rezystancja izolacji mieszkania:
+    miejsce instalacji: "budynek-jednorodzinny",
+    przewody:
+    - YKY_5x10_mm2: 1,
+    - YDYp_3x2_5_mm2: 8,
+    - YDYp_3x1_5_mm2: 4,
+    - YDYp_5x2_5_mm2: 1,
+    - ileFaz: 3
+
+uklad_zasilania: TN-S,
+napięcie sieci zasilającej: 400V

@@ -3,10 +3,12 @@
     "adres": "82-300 Elbląg, Konopnickiej 2B/2",
     "miejsce_badan": "Budynek wielorodzinny",
 
-    "YKY_5x10_mm2": "1",
-    "YDYp_3x2_5mm2": "10",
-    "YDYp_3x1_5_mm2": "10",
-    "YDYp_5x2_5_mm2": "9",
+    "przewody": {
+        "YKY_5x10_mm2": "1",
+        "YDYp_3x2_5_mm2": "10",
+        "YDYp_3x1_5_mm2": "10",
+        "YDYp_5x2_5_mm2": "9"
+    },
 
     "petla_zwarcia":[
         {
@@ -213,38 +215,58 @@
         {
             "nr": 1,
             "miejsce_instalacji": "Mieszkanie-1",
-            "YKY_5x10_mm2": "1",
-            "YDYp_3x2_5mm2": "3",
-            "YDYp_3x1_5_mm2": "1",
-            "YDYp_5x2_5_mm2": "1",
+            "przewody": {
+                "YKY_5x10_mm2": "1",
+                "YDYp_3x2_5_mm2": "3",
+                "YDYp_3x1_5_mm2": "1",
+                "YDYp_5x2_5_mm2": "1"
+            },
             "ileFaz": "3"
+
         },
         {
             "nr": 2,
             "miejsce_instalacji": "Mieszkanie-2",
-            "YKY_5x10_mm2": "1",
-            "YDYp_3x2_5mm2": "4",
-            "YDYp_3x1_5_mm2": "1",
-            "YDYp_5x2_5_mm2": "1",
+            "przewody": {
+                "YKY_5x10_mm2": "1",
+                "YDYp_3x2_5_mm2": "4",
+                "YDYp_3x1_5_mm2": "1",
+                "YDYp_5x2_5_mm2": "1"
+            },
             "ileFaz": "3"
         },
         {
             "nr": 3,
             "miejsce_instalacji": "Mieszkanie-3",
-            "YKY_5x10_mm2": "1",
-            "YDYp_3x2_5mm2": "5",
-            "YDYp_3x1_5_mm2": "1",
-            "YDYp_5x2_5_mm2": "1",
-            "ileFaz": "3"
+            "przewody": {
+                "YKY_5x10_mm2": "1",
+                "YDYp_3x2_5_mm2": "5",
+                "YDYp_3x1_5_mm2": "1",
+                "YDYp_5x2_5_mm2": "1"
+            },
+            "ileFaz": "1"
         },
         {
             "nr": 4,
             "miejsce_instalacji": "Mieszkanie-4",
-            "YKY_5x10_mm2": "1",
-            "YDYp_3x2_5mm2": "5",
-            "YDYp_3x1_5_mm2": "1",
-            "YDYp_5x2_5_mm2": "1",
-            "ileFaz": "3"
+            "przewody": {
+                "YKY_5x10_mm2": "1",
+                "YDYp_3x2_5_mm2": "5",
+                "YDYp_3x1_5_mm2": "1",
+                "YDYp_5x2_5_mm2": "1"
+            },
+            "ileFaz": "1"
+        },
+        {
+            "nr": 5,
+            "miejsce_instalacji": "Mieszkanie-5",
+            "przewody": {
+                "YDY_5x4_mm2": "1",
+                "YDYp_3x2_5_mm2": "2",
+                "YDYp_3x1_5_mm2": "2",
+                "YDYp_5x2_5_mm2": "1"
+            },
+            "ileFaz": "1"
         }
     ],
 

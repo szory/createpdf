@@ -53,3 +53,4 @@ report.xml
 # Misc temporary files
 *.tmp
 *.swp
+out.txt
