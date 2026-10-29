@@ -10,6 +10,8 @@
 
 """
 
+from pathlib import Path
+
 from langchain_ollama import ChatOllama
 from langchain_core.prompts import (ChatPromptTemplate)
 from langchain_core.output_parsers import StrOutputParser
@@ -125,70 +127,6 @@ def json_details_of_offer(query):
     return result.replace("```json", "").replace("```", "")
 
 if __name__ == "__main__":
-    query="""
-        data pomiarów elektrycznych: 2026-10-27,
-        adres pomiarów elektrycznych: "84-240 Reda, Okrężna 7a",
-        miejsce badań: budynek jednorodzinny,
-        pętle zwarcia gniazd:
-            - gniazdo 0.76, miejsce instalacji: Kuchnia-Pokój-Piętro,
-            - gniazdo 0.76, miejsce instalacji: Kuchnia-Pokój-Piętro,
-            - gniazdo 0.82, miejsce instalacji: Kuchnia-Pokój-Piętro,
-            - gniazdo 0.67, miejsce instalacji: Kuchnia-Pokój-Piętro,
-            - gniazdo 0.69, miejsce instalacji: Kuchnia-Pokój-Piętro,
-            - gniazdo 0.69, miejsce instalacji: Kuchnia-Pokój-Piętro,
-            
-            - gniazdo 1.02, miejsce instalacji: Kuchnia-Pokój-Piętro,
-            - gniazdo 1.08, miejsce instalacji: Kuchnia-Pokój-Piętro,
-            - gniazdo 1.13, miejsce instalacji: Kuchnia-Pokój-Piętro,
-            - gniazdo 1.13, miejsce instalacji: Kuchnia-Pokój-Piętro,
-            
-            - gniazdo 1.18, miejsce instalacji: Kuchnia-Pokój-Piętro,
-            - gniazdo 0.76, miejsce instalacji: Kuchnia-Pokój-Piętro,
-            
-            - gniazdo 0.9, miejsce instalacji: Łazienka-Piętro,
-            - gniazdo 1.0, miejsce instalacji: Łazienka-Piętro,
-            
-            - gniazdo 0.86, miejsce instalacji: Pralnia-Parter,
-            - gniazdo 0.91, miejsce instalacji: Pralnia-Parter,
-            - gniazdo 0.90, miejsce instalacji: Pralnia-Parter,
-            
-            - gniazdo 0.85, miejsce instalacji: Bojler-Parter,
-            
-            - gniazdo 0.80, miejsce instalacji: Łazienka-Parter,
-            
-            - gniazdo 0.83, miejsce instalacji: Pokój-Przy-Pralnia-Parter,
-            - gniazdo 0.86, miejsce instalacji: Pokój-Przy-Pralnia-Parter,
-            - gniazdo 0.88, miejsce instalacji: Pokój-Przy-Pralnia-Parter,
-            
-            - gniazdo 0.96, miejsce instalacji: Pokój-Przy-Łazienka-Parter,        
-            - gniazdo 0.93, miejsce instalacji: Pokój-Przy-Łazienka-Parter,
-            - gniazdo 1.02, miejsce instalacji: Pokój-Przy-Łazienka-Parter,
-            
-            - gniazdo 0.96, miejsce instalacji: Pokój-Parter-1,
-            
-            - gniazdo 0.89, miejsce instalacji: Pokój-Parter-2,
-            - gniazdo 0.85, miejsce instalacji: Pokój-Parter-2,
-            - gniazdo 0.97, miejsce instalacji: Pokój-Parter-2,
-            - gniazdo 0.98, miejsce instalacji: Pokój-Parter-2,
-            
-            - gniazdo 0.90, miejsce instalacji: Taras,
-            
-            - gniazdo 0.93, miejsce instalacji: Budynek
-        
-        rcd:
-            - producent: "ABB", nr: 1, miejsce instalacji: "Przedpokój", volt: 230, typ: "F364 40/4/003", amper_wywolania_pomiar: 24, czas_pomiar: 21,
-
-
-        rezystancja izolacji mieszkania:
-            miejsce instalacji: "budynek-jednorodzinny",
-            przewody:
-            - YKY_5x10_mm2: 1,
-            - YDYp_3x2_5_mm2: 8,
-            - YDYp_3x1_5_mm2: 4,
-            - YDYp_5x2_5_mm2: 1,
-            - ileFaz: 3
-            
-        uklad_zasilania: TN-S,
-	    napięcie sieci zasilającej: 400V
-    """
-    json_details_of_offer(query)
+    query_path = Path(__file__).parent / "query_json.txt"
+    query = query_path.read_text(encoding="utf-8")
+    print(json_details_of_offer(query))
